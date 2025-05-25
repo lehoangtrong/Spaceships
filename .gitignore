@@ -1,3 +1,5 @@
+./Assets/Resources
+
 # Created by https://www.toptal.com/developers/gitignore/api/unity,visualstudio,visualstudiocode,vim,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,visualstudio,visualstudiocode,vim,node
 
@@ -638,3 +640,5 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,visualstudio,visualstudiocode,vim,node
+.gitignore
+Assets/Resources/Main Ship/Main Ship - Engine Effects/Aseprite/Main Ship - Engines - Base Engine - Powering.aseprite
