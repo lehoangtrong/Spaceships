@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Asteroid 04_png_processed_0: -4308095718904324256
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
