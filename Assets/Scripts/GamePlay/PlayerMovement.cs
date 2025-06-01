@@ -57,6 +57,13 @@ public class PlayerMovement : MonoBehaviour
             // Hủy ngôi sao
             Destroy(other.gameObject);
         }
+
+        //if(other.gameObject.CompareTag("Asteroid"))
+        //{
+        //    Debug.Log("Player collided with an asteroid!");
+        //    // Hủy tiểu hành tinh
+        //    Destroy(other.gameObject);
+        //}
     }
 
 }
