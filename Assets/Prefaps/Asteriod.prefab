@@ -243,11 +243,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  explosionAndFlarePrefab: {fileID: 100014, guid: 1d5eb0e65111e104d83e6876973a2a81, type: 3}
+  speedIncrement: 0.5
+  maxSpeed: 10
+  interval: 5
+  explosionAndFlarePrefab: {fileID: 100010, guid: 58cdf464e218e2f4e8044e57682af001, type: 3}
   starPrefab: {fileID: 6103804213451016826, guid: 74158aa9a64ccb942aff2b88b58a8816, type: 3}
   explosionSound: {fileID: 8300000, guid: c8331a8dfb2bb1647b19ecbe8d95ba5d, type: 3}
   dieSound: {fileID: 0}
   asteroidSpawnCount: 1
+  scoreValue: 1
+  starSpawnChance: 0.5
 --- !u!82 &3209999089872007181
 AudioSource:
   m_ObjectHideFlags: 0
