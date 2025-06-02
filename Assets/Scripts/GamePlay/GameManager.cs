@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [Header("Prefab thiên thạch")]
     public GameObject asteroidPrefab;
 
@@ -17,9 +20,25 @@ public class GameManager : MonoBehaviour
     [Header("Thời gian tự hủy thiên thạch")]
     public float destroyAfterSeconds = 10f;
 
+    [Header("Score")]
+    public int score = 0;
+    public TextMeshProUGUI scoreText;
+
     private void Start()
     {
         StartCoroutine(SpawnAsteroids());
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator SpawnAsteroids()
@@ -36,6 +55,24 @@ public class GameManager : MonoBehaviour
 
             // Hủy thiên thạch sau X giây nếu chưa va chạm
             Destroy(asteroid, destroyAfterSeconds);
+        }
+    }
+
+    public void AddScore(int points)
+    {
+        score += points;
+        UpdateScoreText();
+    }
+
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
+        else
+        {
+            Debug.LogWarning("Score Text is not assigned in the GameManager.");
         }
     }
 }

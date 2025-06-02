@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class StarController : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class StarController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player ăn sao!");  // Kiểm tra va chạm có xảy ra
-            //ScoreManager.Instance.AddPoints(pointValue); // Tùy bạn muốn dùng điểm hay không
+            GameManager.Instance.AddScore(pointValue);
             Destroy(gameObject); // Hủy ngôi sao (KHÔNG hủy Player!)
         }
     }

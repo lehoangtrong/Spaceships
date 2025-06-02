@@ -7,15 +7,16 @@ TagManager:
   - laser
   - Laser
   - Asteriod
+  - Star
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Asteroid
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Star
   - 
   - 
   - 
