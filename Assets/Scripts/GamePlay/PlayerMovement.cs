@@ -46,17 +46,4 @@ public class PlayerMovement : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, mouseWorldPosition, moveSpeed * Time.deltaTime);
         }
     }
-
-    // tính điểm khi ăn ngôi sao
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Star"))
-        {
-            // Tăng điểm
-            //GameManager.Instance.AddScore(1);
-            // Hủy ngôi sao
-            Destroy(other.gameObject);
-        }
-    }
-
 }

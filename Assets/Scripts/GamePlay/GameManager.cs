@@ -1,21 +1,41 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject astroidPrefab;
-    public float minInstantiateTime;
-    public float maxInstantiateTime;
-    public float destroyTime = 10f; // Time after which the asteroid will be destroyed
+    [Header("Prefab thiên thạch")]
+    public GameObject asteroidPrefab;
+
+    [Header("Khoảng thời gian giữa các lần spawn (giây)")]
+    public float minSpawnDelay = 0.5f;
+    public float maxSpawnDelay = 2f;
+
+    [Header("Giới hạn trục X để spawn thiên thạch")]
+    public float minX = -8f;
+    public float maxX = 8f;
+
+    [Header("Thời gian tự hủy thiên thạch")]
+    public float destroyAfterSeconds = 10f;
 
     private void Start()
     {
-        InvokeRepeating("InstantiateAstroid", 1f, 1f); 
+        StartCoroutine(SpawnAsteroids());
     }
 
-    void InstantiateAstroid()
+    IEnumerator SpawnAsteroids()
     {
-        Vector3 randomPos = new Vector3(Random.Range(minInstantiateTime, maxInstantiateTime), 6f);
-        GameObject astroid = Instantiate(astroidPrefab, randomPos, Quaternion.identity);
-        Destroy(astroid, destroyTime);
+        while (true)
+        {
+            // Chờ thời gian ngẫu nhiên trước khi spawn tiếp
+            float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+            yield return new WaitForSeconds(delay);
+
+            // Tạo thiên thạch tại vị trí ngẫu nhiên theo trục X
+            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), 6f, 0f);
+            GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
+
+            // Hủy thiên thạch sau X giây nếu chưa va chạm
+            Destroy(asteroid, destroyAfterSeconds);
+        }
     }
 }
