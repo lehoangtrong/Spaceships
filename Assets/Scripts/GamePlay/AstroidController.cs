@@ -9,7 +9,9 @@ public class AsteroidController : MonoBehaviour
     public float interval = 5f; // thời gian mỗi lần tăng
     public GameObject explosionAndFlarePrefab; // Hiệu ứng nổ
     public GameObject starPrefab;              // ngôi sao để spawn sau nổ
-
+    public int scoreValue = 1;
+    [Range(0f, 1f)]
+    public float starSpawnChance = 0.5f;
     void Update()
     {
         transform.Translate(Vector3.down * speed * Time.deltaTime);
@@ -27,6 +29,7 @@ public class AsteroidController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("Player"))
         {
+            GameManager.Instance.AddScore(scoreValue);
             Explode();
             //Destroy(collision.gameObject);
         }
@@ -37,9 +40,11 @@ public class AsteroidController : MonoBehaviour
         if (explosionAndFlarePrefab != null)
             Instantiate(explosionAndFlarePrefab, transform.position, Quaternion.identity);
 
-        // tạo ra ngôi sao
-        if (starPrefab != null)
-            Instantiate(starPrefab, transform.position, Quaternion.identity);  // Spawn ngôi sao
+        float randomChance = Random.value; // Giá trị ngẫu nhiên từ 0.0 đến 1.0
+        if (starPrefab != null && Random.value < starSpawnChance) // % cơ hội
+        {
+            Instantiate(starPrefab, transform.position, Quaternion.identity);
+        }
 
         Destroy(gameObject);
     }
