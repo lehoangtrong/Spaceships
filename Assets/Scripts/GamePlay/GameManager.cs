@@ -24,9 +24,29 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public TextMeshProUGUI scoreText;
 
+    [Header("Player Lives")]
+    public int playerLives = 3; // Số mạng ban đầu của người chơi
+    public TextMeshProUGUI livesText; // UI Text hiển thị số mạng còn lại
+    public GameObject playerObject; // Đối tượng người chơi
+    public ShieldController playerShield; // Component Shield của player
+
     private void Start()
     {
         StartCoroutine(SpawnAsteroids());
+
+        // Tìm player và shield controller nếu chưa được gán
+        if (playerObject == null)
+        {
+            playerObject = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        if (playerObject != null)
+        {
+            playerShield = playerObject.GetComponent<ShieldController>();
+        }
+
+        // Cập nhật hiển thị số mạng ban đầu
+        UpdateLivesText();
     }
 
     private void Awake()
@@ -39,6 +59,47 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    // Hàm giảm mạng người chơi và kích hoạt shield
+    public void LoseLife()
+    {
+        playerLives--; // Giảm số mạng
+        UpdateLivesText(); // Cập nhật UI
+
+        if (playerLives <= 0)
+        {
+            // Game over
+            GameOver();
+        }
+        else if (playerShield != null)
+        {
+            // Kích hoạt shield khi mất mạng nhưng vẫn còn mạng
+            playerShield.ActivateShield();
+        }
+    }
+
+    // Cập nhật hiển thị số mạng
+    void UpdateLivesText()
+    {
+        if (livesText != null)
+        {
+            livesText.text = "Lives: " + playerLives.ToString();
+        }
+    }
+
+    // Xử lý game over
+    void GameOver()
+    {
+        Debug.Log("Game Over!");
+
+        if (playerObject != null)
+        {
+            Destroy(playerObject);
+        }
+
+        Time.timeScale = 0f; // Dừng game
+        // Có thể thêm code hiển thị màn hình game over ở đây
     }
 
     IEnumerator SpawnAsteroids()

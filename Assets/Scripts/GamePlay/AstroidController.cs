@@ -9,8 +9,6 @@ public class AsteroidController : MonoBehaviour
     public float interval = 5f; // thời gian mỗi lần tăng
     public GameObject explosionAndFlarePrefab; // Hiệu ứng nổ
     public GameObject starPrefab;              // ngôi sao để spawn sau nổ
-
-    public static int playerLife = 3; // Biến tĩnh để theo dõi số mạng của người chơi
     public AudioClip explosionSound;  // Âm thanh nổ
     public AudioClip dieSound;        //Âm thanh thăng thiên
     private AudioSource audioSource;
@@ -41,7 +39,10 @@ public class AsteroidController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("Player"))
+
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
+
+        if (collision.gameObject.CompareTag("Laser"))
         {
             GameManager.Instance.AddScore(scoreValue);
             Explode();
@@ -50,24 +51,44 @@ public class AsteroidController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+
+            if (GameManager.Instance.playerShield != null && GameManager.Instance.playerShield.IsShieldActive())
+            {
+                // Nếu shield đang hoạt động, không làm gì cả
+                Debug.Log("Player shield is active, no life lost.");
+            }
+            else
+            {
+                // Nếu không có shield hoặc shield không hoạt động, giảm mạng
+                Debug.Log("Player shield is not active, life lost.");
+                GameManager.Instance.LoseLife();
+            }
+
+            // Nếu có âm thanh nổ, phát âm thanh tại vị trí của thiên thạch
             if (explosionSound != null && audioSource != null)
             {
                 PlaySoundAtPosition(explosionSound, transform.position, 1f);
             }
 
+            // Xóa thiên thạch sau khi xử lý va chạm
             Destroy(this.gameObject);
-            playerLife--; // Giảm số mạng của người chơi khi va chạm với asteroid
 
-            if (playerLife <= 0)
+            // Nếu có hiệu ứng nổ, tạo hiệu ứng nổ tại vị trí của thiên thạch
+            if (explosionAndFlarePrefab != null)
             {
-                if (dieSound != null && audioSource != null)
-                {
-                    PlaySoundAtPosition(dieSound, transform.position, 1f);
-                }
+                Instantiate(explosionAndFlarePrefab, transform.position, Quaternion.identity);
+            }
 
-                Debug.Log("Avenger end game");
-                Destroy(collision.gameObject); // Xóa người chơi
-                Time.timeScale = 0f;
+            // Nếu có ngôi sao, tạo ngôi sao tại vị trí của thiên thạch
+            if (starPrefab != null && Random.value < starSpawnChance)
+            {
+                Instantiate(starPrefab, transform.position, Quaternion.identity);  // Spawn ngôi sao
+            }
+
+            // Nếu có âm thanh thăng thiên, phát âm thanh tại vị trí của thiên thạch
+            if (dieSound != null && audioSource != null)
+            {
+                PlaySoundAtPosition(dieSound, transform.position, 1f);
             }
         }
     }
