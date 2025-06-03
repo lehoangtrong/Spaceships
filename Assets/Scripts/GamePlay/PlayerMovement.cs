@@ -86,6 +86,13 @@ public class PlayerMovement : MonoBehaviour
             // Cập nhật vị trí mục tiêu theo vị trí hiện tại nếu đang di chuyển bằng phím
             targetPosition = transform.position;
         }
+
+        //if(other.gameObject.CompareTag("Asteroid"))
+        //{
+        //    Debug.Log("Player collided with an asteroid!");
+        //    // Hủy tiểu hành tinh
+        //    Destroy(other.gameObject);
+        //}
     }
 
     private void MoveTowardsTarget()
