@@ -8,6 +8,9 @@ TagManager:
   - Laser
   - Asteriod
   - Star
+  - pyramid
+  - plane
+  - Heart
   layers:
   - Default
   - TransparentFX

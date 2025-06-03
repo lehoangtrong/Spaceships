@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     [Header("Player Lives")]
-    public int playerLives = 3; // Số mạng ban đầu của người chơi
     public TextMeshProUGUI livesText; // UI Text hiển thị số mạng còn lại
     public GameObject playerObject; // Đối tượng người chơi
     public ShieldController playerShield; // Component Shield của player
@@ -59,18 +58,19 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        // Khởi tạo số mạng trong HealthManager (mặc định là 3)
+        HealthManager.health = 3; // Đổi từ playerLives thành số cố định 3
     }
 
     // Hàm giảm mạng người chơi và kích hoạt shield
     public void LoseLife()
     {
-        playerLives--; // Giảm số mạng
+        HealthManager.health--; // Giảm trực tiếp số mạng trong HealthManager
         UpdateLivesText(); // Cập nhật UI
 
-        if (playerLives <= 0)
+        if (HealthManager.health <= 0)
         {
-            // Game over
-            GameOver();
+            Invoke("GameOver", 0.1f); // Gọi hàm GameOver sau 0.1 giây để tránh lỗi khi đang trong quá trình giảm mạng
         }
         else if (playerShield != null)
         {
@@ -84,7 +84,8 @@ public class GameManager : MonoBehaviour
     {
         if (livesText != null)
         {
-            livesText.text = "Lives: " + playerLives.ToString();
+            // Sửa từ playerLives thành HealthManager.health
+            livesText.text = "Lives: " + HealthManager.health.ToString();
         }
     }
 

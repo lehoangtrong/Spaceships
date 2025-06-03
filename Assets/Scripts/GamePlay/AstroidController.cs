@@ -65,7 +65,7 @@ public class AsteroidController : MonoBehaviour
             {
                 // Nếu không có shield hoặc shield không hoạt động, giảm mạng
                 Debug.Log("Player shield is not active, life lost.");
-                GameManager.Instance.LoseLife();
+                GameManager.Instance.LoseLife();  // Gọi LoseLife để cập nhật UI và kiểm tra game over
             }
 
             // Nếu có âm thanh nổ, phát âm thanh tại vị trí của thiên thạch
