@@ -33,16 +33,8 @@ public class StarController : MonoBehaviour
             }
 
             Debug.Log("Star collected!");
-            Destroy(gameObject); // Destroy the star object
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player ăn sao!");  // Kiểm tra va chạm có xảy ra
             GameManager.Instance.AddScore(pointValue);
-            Destroy(gameObject); // Hủy ngôi sao (KHÔNG hủy Player!)
+            Destroy(gameObject); // Destroy the star object
         }
     }
 
