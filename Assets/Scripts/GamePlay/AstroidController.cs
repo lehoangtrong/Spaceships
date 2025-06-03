@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AsteroidController : MonoBehaviour
 {
@@ -68,6 +69,7 @@ public class AsteroidController : MonoBehaviour
                 Debug.Log("Avenger end game");
                 Destroy(collision.gameObject); // Xóa người chơi
                 Time.timeScale = 0f;
+                SceneManager.LoadScene("EndGame");
             }
         }
     }

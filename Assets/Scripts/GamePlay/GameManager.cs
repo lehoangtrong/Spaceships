@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     public float destroyAfterSeconds = 10f;
 
     [Header("Score")]
-    public int score = 0;
+    public static int score = 0;
     public TextMeshProUGUI scoreText;
 
     private void Start()
