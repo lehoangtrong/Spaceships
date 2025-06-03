@@ -12,24 +12,11 @@ public class AsteroidController : MonoBehaviour
     public AudioClip explosionSound;  // Âm thanh nổ
     public AudioClip dieSound;        //Âm thanh thăng thiên
     private AudioSource audioSource;
-
     public int asteroidSpawnCount = 5; // Số lượng asteroid sẽ được sinh ra mỗi lần
 
     public int scoreValue = 1;
     [Range(0f, 1f)]
     public float starSpawnChance = 0.5f;
-
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
-
-    public static int playerLife = 3; // Biến tĩnh để theo dõi số mạng của người chơi
-    public AudioClip explosionSound;  // Âm thanh nổ
-    public AudioClip dieSound;        //Âm thanh thăng thiên
-    private AudioSource audioSource;
-
-    public int asteroidSpawnCount = 5; // Số lượng asteroid sẽ được sinh ra mỗi lần
 
     private void Awake()
     {

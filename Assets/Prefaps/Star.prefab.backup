@@ -16,6 +16,10 @@ GameObject:
   - component: {fileID: 5475727884947420470}
   - component: {fileID: 2082676472356726474}
   - component: {fileID: 3988812806125148359}
+  m_Layer: 7
+  - component: {fileID: 5475727884947420470}
+  - component: {fileID: 2082676472356726474}
+  - component: {fileID: 3988812806125148359}
   - component: {fileID: 3279575698633954396}
   m_Layer: 7
   m_Name: Star
@@ -145,6 +149,8 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!61 &366372553130484412
 BoxCollider2D:
+--- !u!60 &5475727884947420470
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -177,6 +183,18 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.22, y: 0.24}
+    newSize: {x: 0.22, y: 0.24}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.22, y: 0.24}
+  m_EdgeRadius: 0
 --- !u!60 &5475727884947420470
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -239,11 +257,129 @@ MonoBehaviour:
   m_GameObject: {fileID: 6103804213451016826}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c930cd9b54de748b2c17957d81eb80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starSource: {fileID: 8300000, guid: cf62d0a843db49f4c8579053977336fc, type: 3}
+--- !u!82 &3988812806125148359
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6103804213451016826}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Points:
+    m_Paths:
+    - - {x: -0.07, y: 0.12}
+      - {x: -0.11, y: 0.099999994}
+      - {x: -0.11, y: -0.12}
+      - {x: 0.11, y: -0.12}
+      - {x: 0.11, y: 0.07}
+      - {x: 0.07, y: 0.12}
+  m_UseDelaunayMesh: 0
+--- !u!114 &2082676472356726474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6103804213451016826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91552bf28c3ff2b4eac9f353ac50a614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 10
-  starSource: {fileID: 8300000, guid: cf62d0a843db49f4c8579053977336fc, type: 3}
 --- !u!82 &3988812806125148359
 AudioSource:
   m_ObjectHideFlags: 0

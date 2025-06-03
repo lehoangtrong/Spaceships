@@ -362,8 +362,10 @@ GameObject:
   - component: {fileID: 946516007}
   - component: {fileID: 946516008}
   - component: {fileID: 946516009}
+  - component: {fileID: 946516010}
   m_Layer: 0
   m_Name: Player
+  m_TagString: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1234,4 +1236,6 @@ SceneRoots:
   - {fileID: 1656013484}
   - {fileID: 1456408493}
   - {fileID: 2093162527}
+  - {fileID: 333770908}
+  - {fileID: 230935595}
   - {fileID: 2102340348}
