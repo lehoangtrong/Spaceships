@@ -2,7 +2,7 @@
 
 public class StarController : MonoBehaviour
 {
-    private float fallSpeed = 2f;
+    private float fallSpeed = 1f;
     private float destroyAfterSeconds = 10f;
     public int pointValue = 10;
 

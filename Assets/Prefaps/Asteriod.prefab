@@ -148,9 +148,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677b2d43b1f94864fa2045ce1e94c180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 3
+  speedIncrement: 0.5
+  maxSpeed: 10
+  interval: 5
   explosionAndFlarePrefab: {fileID: 100014, guid: 1d5eb0e65111e104d83e6876973a2a81, type: 3}
   starPrefab: {fileID: 6103804213451016826, guid: 74158aa9a64ccb942aff2b88b58a8816, type: 3}
+  scoreValue: 1
+  starSpawnChance: 0.5
+  rotationSpeed: {x: 0, y: 0, z: 100}
 --- !u!50 &-3727013427906668668
 Rigidbody2D:
   serializedVersion: 5

@@ -12,10 +12,16 @@ public class AsteroidController : MonoBehaviour
     public int scoreValue = 1;
     [Range(0f, 1f)]
     public float starSpawnChance = 0.5f;
+    public Vector3 rotationSpeed = new Vector3(100f, 0f, 0f); // ← Thêm dòng này để khai báo biến
     void Update()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
+        //transform.Translate(Vector3.down * speed * Time.deltaTime);
+        //transform.Rotate(rotationSpeed * Time.deltaTime);
+        // Di chuyển thẳng xuống
+        transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
 
+        // Xoay quanh chính nó
+        transform.Rotate(rotationSpeed * Time.deltaTime, Space.Self);
         timer += Time.deltaTime;
         if (timer >= interval)
         {
@@ -41,7 +47,9 @@ public class AsteroidController : MonoBehaviour
             Instantiate(explosionAndFlarePrefab, transform.position, Quaternion.identity);
 
         float randomChance = Random.value; // Giá trị ngẫu nhiên từ 0.0 đến 1.0
-        if (starPrefab != null && Random.value < starSpawnChance) // % cơ hội
+                                           //if (starPrefab != null && Random.value < starSpawnChance) // % cơ hội
+        if (starPrefab != null) // % cơ hội
+
         {
             Instantiate(starPrefab, transform.position, Quaternion.identity);
         }
