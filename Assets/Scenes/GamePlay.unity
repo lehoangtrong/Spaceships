@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 946516007}
   - component: {fileID: 946516008}
   - component: {fileID: 946516009}
+  - component: {fileID: 946516010}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -478,6 +479,13 @@ MonoBehaviour:
   moveSpeed: 5
   useSmoothing: 1
   smoothingSpeed: 5
+  useMouseMovement: 1
+  useKeyboardMovement: 1
+  keyboardMoveSpeed: 7
+  minX: -8
+  maxX: 8
+  minY: -4.5
+  maxY: 4.5
 --- !u!50 &946516007
 Rigidbody2D:
   serializedVersion: 5
@@ -565,6 +573,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 5640739876419602147, guid: 6a116a7b38c1af141800f3057a3ebcaa, type: 3}
   firePoint: {fileID: 2146792642}
+  cooldownTime: 0.2
+  autoFire: 0
+  laserSound: {fileID: 0}
+  useMouseInput: 1
+  useKeyboardInput: 1
+--- !u!114 &946516010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946516002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6a404ab9ff1814d9e16ba5fc2e2a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldDuration: 3
+  shieldVisual: {fileID: 1100155091}
+  shieldActivateSound: {fileID: 0}
+  shieldDeactivateSound: {fileID: 0}
 --- !u!1 &1100155091
 GameObject:
   m_ObjectHideFlags: 0
