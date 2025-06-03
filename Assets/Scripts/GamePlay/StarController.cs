@@ -1,9 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StarController : MonoBehaviour
 {
     private AudioSource audioSource;
     public AudioClip starSource;
+    private float fallSpeed = 1f;
+    private float destroyAfterSeconds = 10f;
+    public int pointValue = 10;
 
     private void Awake()
     {
@@ -12,12 +15,12 @@ public class StarController : MonoBehaviour
 
     void Start()
     {
-        
+        Destroy(gameObject, destroyAfterSeconds);
     }
 
     void Update()
     {
-        
+        transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -33,6 +36,16 @@ public class StarController : MonoBehaviour
             Destroy(gameObject); // Destroy the star object
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player ăn sao!");  // Kiểm tra va chạm có xảy ra
+            GameManager.Instance.AddScore(pointValue);
+            Destroy(gameObject); // Hủy ngôi sao (KHÔNG hủy Player!)
+        }
+    }
+
 
     private void PlaySoundAtPosition(AudioClip clip, Vector3 position, float volume = 1f)
     {

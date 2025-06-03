@@ -14,6 +14,8 @@ public class AsteroidController : MonoBehaviour
     private AudioSource audioSource;
     public int asteroidSpawnCount = 5; // Số lượng asteroid sẽ được sinh ra mỗi lần
 
+    public Vector3 rotationSpeed = new Vector3(0f, 0f, 100f);
+
     public int scoreValue = 1;
     [Range(0f, 1f)]
     public float starSpawnChance = 0.5f;
@@ -25,7 +27,10 @@ public class AsteroidController : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
+        transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
+
+        // Xoay quanh chính nó
+        transform.Rotate(rotationSpeed * Time.deltaTime, Space.Self);
 
         timer += Time.deltaTime;
         if (timer >= interval)

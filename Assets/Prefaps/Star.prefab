@@ -150,7 +150,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6103804213451016826}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -177,6 +177,18 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.22, y: 0.24}
+    newSize: {x: 0.22, y: 0.24}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!60 &5475727884947420470
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -242,8 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91552bf28c3ff2b4eac9f353ac50a614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 10
   starSource: {fileID: 8300000, guid: cf62d0a843db49f4c8579053977336fc, type: 3}
+  pointValue: 10
 --- !u!82 &3988812806125148359
 AudioSource:
   m_ObjectHideFlags: 0
