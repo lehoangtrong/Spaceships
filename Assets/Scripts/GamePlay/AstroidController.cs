@@ -50,7 +50,6 @@ public class AsteroidController : MonoBehaviour
         {
             GameManager.Instance.AddScore(scoreValue);
             Explode();
-            // Destroy(collision.gameObject); //lỏ
         }
 
         if (collision.gameObject.CompareTag("Player"))
