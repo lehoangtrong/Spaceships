@@ -17,16 +17,16 @@ public class GameManager : MonoBehaviour
     [Header("Initial Settings (lúc bắt đầu)")]
     public int initialAsteroidCount = 3;        // Số asteroid spawn ban đầu
     public float initialSpawnInterval = 2f;      // Thời gian giữa các lần spawn ban đầu
-    public float initialAsteroidSpeed = 5f;     // Tốc độ asteroid ban đầu
+    public float initialAsteroidSpeed = 1f;     // Tốc độ asteroid ban đầu
 
     [Header("Difficulty Increase (mỗi 10 giây)")]
-    public float difficultyIncreaseInterval = 5f;  // Mỗi 10 giây tăng độ khó
+    public float difficultyIncreaseInterval = 10f;  // Mỗi 10 giây tăng độ khó
     public int asteroidCountIncrease = 1;           // Tăng số asteroid mỗi lần
     public float spawnIntervalDecrease = 0.2f;      // Giảm thời gian spawn (spawn nhanh hơn)
     public float speedIncrease = 1f;                // Tăng tốc độ asteroid
 
     [Header("Maximum Limits")]
-    public int maxAsteroidCount = 8;           // Số asteroid tối đa mỗi lần spawn
+    public int maxAsteroidCount = 10;           // Số asteroid tối đa mỗi lần spawn
     public float minSpawnInterval = 0.5f;       // Thời gian spawn tối thiểu
     public float maxAsteroidSpeed = 15f;        // Tốc độ asteroid tối đa
 
@@ -182,6 +182,8 @@ public class GameManager : MonoBehaviour
         return new Vector3(randomX, randomY, 0f);
     }
 
+    // ========== PLAYER & GAME STATE MANAGEMENT ==========
+
     // Hàm giảm mạng người chơi và kích hoạt shield
     public void LoseLife()
     {
@@ -249,6 +251,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game đã được restart!");
     }
 
+    // ========== SCORE MANAGEMENT ==========
+
     public void AddScore(int points)
     {
         score += points;
@@ -267,7 +271,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Getter methods để hiển thị thông tin game
+    // ========== GETTER METHODS ==========
+
     public int GetCurrentScore()
     {
         return score;

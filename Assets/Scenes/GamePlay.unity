@@ -1521,11 +1521,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 1272100372888554421, guid: f4f5e0caf7f8b4b499890508d57b6063, type: 3}
-  minSpawnDelay: 0.5
-  maxSpawnDelay: 2
-  minX: -8
-  maxX: 8
+  spawnRangeX: 8
+  spawnHeight: 6
   destroyAfterSeconds: 10
+  initialAsteroidCount: 3
+  initialSpawnInterval: 2
+  initialAsteroidSpeed: 5
+  difficultyIncreaseInterval: 5
+  asteroidCountIncrease: 1
+  spawnIntervalDecrease: 0.2
+  speedIncrease: 1
+  maxAsteroidCount: 8
+  minSpawnInterval: 0.5
+  maxAsteroidSpeed: 15
   score: 0
   scoreText: {fileID: 238149520}
   playerLives: 3
