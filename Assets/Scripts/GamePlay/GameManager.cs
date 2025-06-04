@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEngine.SceneManagement;
+using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.UIElements;
@@ -29,6 +30,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI livesText; // UI Text hiển thị số mạng còn lại
     public GameObject playerObject; // Đối tượng người chơi
     public ShieldController playerShield; // Component Shield của player
+
+    public GameObject pauseMenuScreen;
 
     private void Start()
     {
@@ -137,5 +140,22 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Score Text is not assigned in the GameManager.");
         }
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0; // Dừng game
+        pauseMenuScreen.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1; // Tiếp tục game
+        pauseMenuScreen.SetActive(false);
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
