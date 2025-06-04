@@ -18,6 +18,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] Transform elementWrapper;
     [SerializeField] TMP_InputField nameInputField;
     [SerializeField] GameObject UiButtonPanel;
+    [SerializeField] GameObject menuTextTitle;
 
     List<GameObject> uiElements = new List<GameObject>();
 
@@ -115,6 +116,7 @@ public class ScoreManager : MonoBehaviour
         }
 
         UiButtonPanel.SetActive(false);
+        menuTextTitle.SetActive(false);
         ShowPanel();
 
         var currentList = GetCurrentHighscoreList();
@@ -133,6 +135,7 @@ public class ScoreManager : MonoBehaviour
     public void CloseMenuRecord()
     {
         UiButtonPanel.SetActive(true);
+        menuTextTitle.SetActive(true);
         ClosePanel();
     }
 
