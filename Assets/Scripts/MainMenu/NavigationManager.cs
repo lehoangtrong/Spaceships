@@ -17,8 +17,8 @@ public class NavigationManager : MonoBehaviour
         // Reset game state through GameManager if it exists
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.score = 0; // Reset score to 0
-            GameManager.Instance.lives = 3; // Reset player lives to 3
+            GameManager.score = 0; // Reset score to 0
+            GameManager.Instance.SetCurrentLives(0);
         }
 
         Time.timeScale = 1f;

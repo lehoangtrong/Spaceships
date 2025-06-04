@@ -932,6 +932,7 @@ GameObject:
   - component: {fileID: 946516009}
   - component: {fileID: 946516010}
   - component: {fileID: 946516011}
+  - component: {fileID: 946516012}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1025,7 +1026,7 @@ Transform:
   m_GameObject: {fileID: 946516002}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -2.26, z: 0}
+  m_LocalPosition: {x: 1.08, y: -3.41, z: 0}
   m_LocalScale: {x: 3.15, y: 3.15, z: 3.15}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1071,7 +1072,7 @@ MonoBehaviour:
   firePoint: {fileID: 2146792642}
   cooldownTime: 0.2
   autoFire: 0
-  laserSound: {fileID: 0}
+  laserSound: {fileID: 8300000, guid: 1e1c59813e5f8b44cb279b8ca3ef931c, type: 3}
   useMouseInput: 1
   useKeyboardInput: 1
 --- !u!114 &946516010
@@ -1136,14 +1137,36 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.08, y: 0.14999999}
-      - {x: -0.17999999, y: -0.01}
-      - {x: -0.17999999, y: -0.12}
+    - - {x: -0.039972052, y: 0.1372639}
+      - {x: -0.09428179, y: 0.044668563}
+      - {x: -0.17818047, y: -0.03729174}
+      - {x: -0.18909724, y: -0.13091677}
       - {x: -0.12, y: -0.14999999}
+      - {x: 0.091318205, y: -0.13544442}
       - {x: 0.16, y: -0.14999999}
-      - {x: 0.16, y: 0.01}
-      - {x: 0.02, y: 0.14999999}
+      - {x: 0.16363876, y: -0.04094468}
+      - {x: 0.07045446, y: 0.05587878}
+      - {x: 0.04149958, y: 0.1028589}
+      - {x: 0.014541538, y: 0.14090277}
   m_UseDelaunayMesh: 0
+--- !u!114 &946516012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946516002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4838e59ec020b54c88925bfbbdfb4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hearts:
+  - {fileID: 565852419}
+  - {fileID: 1086274249}
+  - {fileID: 577114488}
+  fullHeart: {fileID: -8842866002931225452, guid: 02be8425e4c967d42be2d35683153e1f, type: 3}
+  emptyHeart: {fileID: 1906179667584715834, guid: 647dcd38105271c4c8a38ac2495b334c, type: 3}
 --- !u!1 &1086274247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,8 +1338,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 692249739
-  m_SortingLayer: 2
+  m_SortingLayerID: -127848781
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -7185637956740736104, guid: 2723306e13cdd7d4c8e71708d0bda9d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2432,28 +2455,25 @@ MonoBehaviour:
   spawnRangeX: 8
   spawnHeight: 6
   destroyAfterSeconds: 10
-  minSpawnDelay: 0.5
-  maxSpawnDelay: 2
-  currentRound: 1
   round1SpawnInterval: 3
   round1MaxAsteroids: 8
   round1RowSpacing: 1.5
-  round1RequiredScore: 500
+  round1RequiredScore: 15
   round2SpawnInterval: 2
   round2IntervalDecrease: 0.2
   round2MinInterval: 0.5
   round2MaxAsteroidsPerRow: 10
   round2MaxSpeed: 10
-  round2RequiredScore: 1000
+  round2RequiredScore: 25
+  currentRound: 1
+  roundText: {fileID: 0}
   round3SpawnInterval: 2.5
-  round3RequiredScore: 2000
-  score: 0
-  lives: 3
-  playerMovement: {fileID: 0}
+  round3RequiredScore: 35
+  scoreText: {fileID: 238149520}
+  playerObject: {fileID: 0}
   shieldController: {fileID: 0}
-  gameOverPanel: {fileID: 0}
-  backgroundMusic: {fileID: 0}
-  gameOverSound: {fileID: 0}
+  livesText: {fileID: 0}
+  pauseMenuScreen: {fileID: 2068845533}
 --- !u!4 &2093162527
 Transform:
   m_ObjectHideFlags: 0
