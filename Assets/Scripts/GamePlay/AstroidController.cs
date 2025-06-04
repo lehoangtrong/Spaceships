@@ -48,6 +48,7 @@ public class AsteroidController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Laser"))
         {
+            PlaySoundAtPosition(explosionSound, transform.position, 1f); // Phát âm thanh nổ
             GameManager.Instance.AddScore(scoreValue);
             Explode();
             // Destroy(collision.gameObject); //lỏ
