@@ -80,22 +80,54 @@ public class ScoreManager : MonoBehaviour
     {
         if (highscoreHandler == null) return null;
 
-        return null;
+        try
+        {
+            var list = highscoreHandler.CurrentHighscoreList;
+            Debug.Log($"ScoreManager: GetCurrentHighscoreList - got {list?.Count ?? 0} records from HighscoreHandler");
+
+            if (list == null || list.Count == 0)
+            {
+                Debug.Log("ScoreManager: List empty, trying to read directly from file");
+                list = FileHandler.ReadListFromJSON<HighscoreElement>("highscores.json");
+                Debug.Log($"ScoreManager: Read {list?.Count ?? 0} records directly from file");
+            }
+
+            return list ?? new List<HighscoreElement>();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"ScoreManager: Error loading highscores: {e.Message}");
+            return new List<HighscoreElement>();
+        }
     }
 
     public void ShowMenuRecords()
     {
-
-        highscoreHandler = FindObjectOfType<HighscoreHandler>();
         if (highscoreHandler == null)
         {
-            Debug.LogError("HighscoreHandler not found in scene!");
-            return;
+            highscoreHandler = FindObjectOfType<HighscoreHandler>();
+
+            if (highscoreHandler == null)
+            {
+                Debug.LogError("HighscoreHandler not found in scene!");
+                return;
+            }
         }
 
         UiButtonPanel.SetActive(false);
-
         ShowPanel();
+
+        var currentList = GetCurrentHighscoreList();
+        if (currentList != null)
+        {
+            Debug.Log($"ScoreManager: ShowMenuRecords - displaying {currentList.Count} records");
+            UpdateUI(currentList);
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager: No highscore data available");
+            UpdateUI(new List<HighscoreElement>());
+        }
     }
 
     public void CloseMenuRecord()

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,15 +7,21 @@ public class HighscoreHandler : MonoBehaviour
 {
     List<HighscoreElement> highscoreList = new List<HighscoreElement>();
     [SerializeField] int maxCount = 5;
-    [SerializeField] string filename;
+    [SerializeField] string filename = "highscores.json";
 
     public delegate void OnHighscoreListChanged(List<HighscoreElement> list);
     public static event OnHighscoreListChanged onHighscoreListChanged;
 
+    // ✅ FIX: Thêm property để truy cập danh sách highscore
+    public List<HighscoreElement> CurrentHighscoreList
+    {
+        get { return new List<HighscoreElement>(highscoreList); }
+    }
+
     private void Awake()
     {
         LoadHighscores();
-        
+
     }
     //private void LoadHighscores()
     //{
@@ -86,10 +92,10 @@ public class HighscoreHandler : MonoBehaviour
 
     public int ScoreIndex(int score)
     {
-        if(highscoreList.Count == 0)
+        if (highscoreList.Count == 0)
             return 0;
 
-        for(int i = 0; i < highscoreList.Count; i++)
+        for (int i = 0; i < highscoreList.Count; i++)
         {
             if (highscoreList[i].score < score)
             {
@@ -134,7 +140,7 @@ public class HighscoreHandler : MonoBehaviour
         }
     }
 
-  
+
 
     public void AddHighscoreIfPossible(HighscoreElement element)
     {
