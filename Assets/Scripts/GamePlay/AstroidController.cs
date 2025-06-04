@@ -113,6 +113,15 @@ public class AsteroidController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            // Check if this is a splitting asteroid (Round 3)
+            if (gameObject.CompareTag("SplittingAsteroid"))
+            {
+                // Spawn small asteroids
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.SpawnSmallAsteroids(transform.position);
+                }
+            }
             // Asteroid nổ - tự cộng điểm và explode
             AddScoreToGameManager();
             Explode();
