@@ -113,24 +113,10 @@ public class LaserShooter : MonoBehaviour
         if (laserSound != null && audioSource != null)
         {
             //audioSource.PlayOneShot(laserSound);
-            PlaySoundAtPosition(laserSound, transform.position, 1f);
+            GameAudioManager.PlaySoundThroughMixer(laserSound, transform.position, 1f);
         }
 
         // Reset thời gian cooldown
         cooldownTimer = cooldownTime;
-    }
-
-    private void PlaySoundAtPosition(AudioClip clip, Vector3 position, float volume = 1f)
-    {
-        GameObject tempGO = new GameObject("TempAudio");
-        tempGO.transform.position = position;
-
-        AudioSource aSource = tempGO.AddComponent<AudioSource>();
-        aSource.clip = clip;
-        aSource.volume = volume;
-        aSource.spatialBlend = 0f; // 0 = 2D sound
-        aSource.Play();
-
-        Destroy(tempGO, clip.length);
     }
 }

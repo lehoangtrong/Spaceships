@@ -49,7 +49,7 @@ public class AsteroidController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Laser"))
         {
-            PlaySoundAtPosition(explosionSound, transform.position, 1f); // Phát âm thanh nổ
+            GameAudioManager.PlaySoundThroughMixer(explosionSound, transform.position, 1f); // Phát âm thanh nổ
             GameManager.Instance.AddScore(scoreValue);
             Explode();
             // Destroy(collision.gameObject); //lỏ
@@ -73,7 +73,7 @@ public class AsteroidController : MonoBehaviour
             // Nếu có âm thanh nổ, phát âm thanh tại vị trí của thiên thạch
             if (explosionSound != null && audioSource != null)
             {
-                PlaySoundAtPosition(explosionSound, transform.position, 1f);
+                GameAudioManager.PlaySoundThroughMixer(explosionSound, transform.position, 1f);
             }
 
             // Xóa thiên thạch sau khi xử lý va chạm
@@ -94,23 +94,9 @@ public class AsteroidController : MonoBehaviour
             // Nếu có âm thanh thăng thiên, phát âm thanh tại vị trí của thiên thạch
             if (dieSound != null && audioSource != null)
             {
-                PlaySoundAtPosition(dieSound, transform.position, 1f);
+                GameAudioManager.PlaySoundThroughMixer(dieSound, transform.position, 1f);
             }
         }
-    }
-
-    private void PlaySoundAtPosition(AudioClip clip, Vector3 position, float volume = 1f)
-    {
-        GameObject tempGO = new GameObject("TempAudio");
-        tempGO.transform.position = position;
-
-        AudioSource aSource = tempGO.AddComponent<AudioSource>();
-        aSource.clip = clip;
-        aSource.volume = volume;
-        aSource.spatialBlend = 0f; // 0 = 2D sound
-        aSource.Play();
-
-        Destroy(tempGO, clip.length);
     }
 
     void Explode()
