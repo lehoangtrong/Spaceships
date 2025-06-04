@@ -38,6 +38,14 @@ public class AsteroidController : MonoBehaviour
     [Range(0f, 1f)]
     public float starSpawnChance = 0.5f;
 
+    [Header("Split Settings")]
+    public bool splitOnDeath = false;
+    public GameObject childAsteroidPrefab; // Prefab thiên thạch con
+    public int numberOfChildren = 3;
+    public float childSpreadAngle = 60f;
+    public float childSpeedMultiplier = 1.2f;
+    public float childScaleFactor = 0.5f;
+
     // Visual components
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -93,7 +101,7 @@ public class AsteroidController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
+        //Debug.Log("Collision detected with: " + collision.gameObject.name);
 
         if (collision.gameObject.CompareTag("Laser"))
         {
@@ -115,14 +123,14 @@ public class AsteroidController : MonoBehaviour
         if (currentHealth <= 0)
         {
             // Check if this is a splitting asteroid (Round 3)
-            if (gameObject.CompareTag("SplittingAsteroid"))
-            {
-                // Spawn small asteroids
-                if (GameManager.Instance != null)
-                {
-                    GameManager.Instance.SpawnSmallAsteroids(transform.position);
-                }
-            }
+            //if (gameObject.CompareTag("SplittingAsteroid"))
+            //{
+            //    // Spawn small asteroids
+            //    if (GameManager.Instance != null)
+            //    {
+            //        GameManager.Instance.SpawnSmallAsteroids(transform.position);
+            //    }
+            //}
             // Asteroid nổ - tự cộng điểm và explode
             AddScoreToGameManager();
             Explode();
@@ -151,7 +159,7 @@ public class AsteroidController : MonoBehaviour
         isPushedBack = true;
         pushbackTimer = pushbackDuration;
 
-        Debug.Log($"Asteroid bị pushback, health còn: {currentHealth}");
+        //Debug.Log($"Asteroid bị pushback, health còn: {currentHealth}");
     }
 
     private void ShowHitEffect()
@@ -281,6 +289,27 @@ public class AsteroidController : MonoBehaviour
         Destroy(tempGO, clip.length);
     }
 
+    //void Explode()
+    //{
+    //    // Tự tạo hiệu ứng nổ
+    //    CreateExplosionEffect();
+
+    //    // Tự spawn ngôi sao với xác suất
+    //    TrySpawnStar();
+
+    //    // Tự phát âm thanh nổ
+    //    PlayExplosionSound();
+
+    //    // Kiểm tra xem trước khi xóa hẳn thì có nên xuất hiện thiên thạch con không
+    //    if (splitOnDeath && childAsteroidPrefab != null)
+    //    {
+    //        SplitIntoChildren();
+    //    }
+
+    //    // Tự hủy
+    //    Destroy(gameObject);
+    //}
+
     void Explode()
     {
         // Tự tạo hiệu ứng nổ
@@ -292,9 +321,59 @@ public class AsteroidController : MonoBehaviour
         // Tự phát âm thanh nổ
         PlayExplosionSound();
 
+        // 💥 Chỉ phân chia nếu đang ở Round 3
+        if (splitOnDeath &&
+            childAsteroidPrefab != null &&
+            GameManager.Instance != null &&
+            GameManager.Instance.GetCurrentRound() == 3)
+        {
+            //Debug.Log("Đang ở Round 3 → tạo thiên thạch con");
+            SplitIntoChildren();
+        }
+        else
+        {
+            //Debug.Log("Không tạo thiên thạch con. splitOnDeath=" + splitOnDeath +
+            //          ", childAsteroidPrefab null=" + (childAsteroidPrefab == null) +
+            //          ", Round=" + GameManager.Instance?.GetCurrentRound());
+        }
+
         // Tự hủy
         Destroy(gameObject);
     }
+
+    // phương thức xuất hiện thiên thách
+    void SplitIntoChildren()
+    {
+        for (int i = 0; i < numberOfChildren; i++)
+        {
+            // Tính hướng phân tán ngẫu nhiên theo vòng tròn
+            float angle = (i - (numberOfChildren - 1) / 2f) * childSpreadAngle / (numberOfChildren - 1);
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+            Vector3 direction = rotation * Vector3.down;
+
+            // Tạo thiên thạch con
+            GameObject child = Instantiate(childAsteroidPrefab, transform.position, Quaternion.identity);
+
+            // Giảm kích thước thiên thạch con
+            child.transform.localScale = transform.localScale * childScaleFactor;
+
+            // Thiết lập hướng và tốc độ
+            AsteroidController childCtrl = child.GetComponent<AsteroidController>();
+            if (childCtrl != null)
+            {
+                childCtrl.SetSpeed(speed * childSpeedMultiplier);
+                childCtrl.rotationSpeed = rotationSpeed * 1.5f; // có thể cho xoay nhanh hơn
+            }
+
+            // Đẩy nhẹ thiên thạch con ra ngoài
+            Rigidbody2D rb = child.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * speed * childSpeedMultiplier;
+            }
+        }
+    }
+
 
     // ========== PUBLIC METHODS FOR EXTERNAL ACCESS ==========
 

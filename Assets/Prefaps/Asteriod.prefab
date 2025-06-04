@@ -211,6 +211,12 @@ MonoBehaviour:
   dieSound: {fileID: 0}
   scoreValue: 1
   starSpawnChance: 0.5
+  splitOnDeath: 1
+  childAsteroidPrefab: {fileID: 9204473791495523392, guid: 4fd51f50e45636447ba63a1bf6361c36, type: 3}
+  numberOfChildren: 3
+  childSpreadAngle: 60
+  childSpeedMultiplier: 1.2
+  childScaleFactor: 0.5
 --- !u!82 &3209999089872007181
 AudioSource:
   m_ObjectHideFlags: 0

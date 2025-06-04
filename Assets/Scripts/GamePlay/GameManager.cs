@@ -21,18 +21,18 @@ public class GameManager : MonoBehaviour
     public int currentRound = 1;
     public TextMeshProUGUI roundText;
 
-    [Header("Round 1 Settings")]
-    public float round1SpawnInterval = 2f;
-    public float round1IntervalDecrease = 0.2f;
-    public float round1MinInterval = 0.5f;
-    public int round1MaxAsteroids = 10;
-    public float round1MaxSpeed = 10f;
+    [Header("Round 1 Settings")] 
+    public float round1SpawnInterval = 3f; 
+    public int round1MaxAsteroids = 8; 
+    public float round1RowSpacing = 1.5f;
     public int round1RequiredScore = 500;
 
-    [Header("Round 2 Settings")]
-    public float round2RowSpawnInterval = 3f;
-    public int round2MaxAsteroidsPerRow = 8;
-    public float round2RowSpacing = 1.5f;
+    [Header("Round 2 Settings")] 
+    public float round2SpawnInterval = 2f; 
+    public float round2IntervalDecrease = 0.2f;
+    public float round2MinInterval = 0.5f; 
+    public int round2MaxAsteroidsPerRow = 10; 
+    public float round2MaxSpeed = 10f; 
     public int round2RequiredScore = 1000;
 
     [Header("Round 3 Settings")]
@@ -101,7 +101,7 @@ void TestRoundProgression()
 {
     if (Input.GetKeyDown(KeyCode.N)) // Press N to advance to next round
     {
-        Debug.Log("Manual round advancement - Current round: " + currentRound);
+        //Debug.Log("Manual round advancement - Current round: " + currentRound);
         if (currentRound < 3)
         {
             StartRound(currentRound + 1);
@@ -111,7 +111,7 @@ void TestRoundProgression()
     if (Input.GetKeyDown(KeyCode.P)) // Press P to add 10 points
     {
         AddScore(10);
-        Debug.Log("Added 10 points for testing");
+        //Debug.Log("Added 10 points for testing");
     }
 }
 
@@ -137,28 +137,28 @@ void TestRoundProgression()
 
     void CheckRoundProgression()
     {
-        Debug.Log($"CheckRoundProgression: Current Round={currentRound}, Score={score}");
+        //Debug.Log($"CheckRoundProgression: Current Round={currentRound}, Score={score}");
 
         switch (currentRound)
         {
             case 1:
-                Debug.Log($"Round 1 check: Score={score}, Required={round1RequiredScore}");
+                //Debug.Log($"Round 1 check: Score={score}, Required={round1RequiredScore}");
                 if (score >= round1RequiredScore)
                 {
-                    Debug.Log("Advancing to Round 2!");
+                    //Debug.Log("Advancing to Round 2!");
                     StartRound(2);
                 }
                 break;
             case 2:
-                Debug.Log($"Round 2 check: Score={score}, Required={round2RequiredScore}");
+                //Debug.Log($"Round 2 check: Score={score}, Required={round2RequiredScore}");
                 if (score >= round2RequiredScore)
                 {
-                    Debug.Log("Advancing to Round 3!");
+                    //Debug.Log("Advancing to Round 3!");
                     StartRound(3);
                 }
                 break;
             case 3:
-                Debug.Log($"Round 3 check: Score={score}, Required={round3RequiredScore}");
+                //Debug.Log($"Round 3 check: Score={score}, Required={round3RequiredScore}");
                 if (score >= round3RequiredScore)
                 {
                     Debug.Log("Game Completed!");
@@ -194,98 +194,36 @@ void TestRoundProgression()
     // ========== ROUND 1: Progressive spawning ==========
     void InitializeRound1()
     {
-        currentAsteroidCount = 1;
-        currentSpawnInterval = round1SpawnInterval;
-        currentAsteroidSpeed = 1f;
-        nextSpawnTime = Time.time;
-        nextDifficultyIncrease = Time.time + 5f; // Increase every 5 seconds
-    }
-
-    void UpdateRound1()
-    {
-        // Spawn asteroids
-        if (Time.time >= nextSpawnTime)
-        {
-            SpawnRound1Asteroids();
-            nextSpawnTime = Time.time + currentSpawnInterval;
-        }
-
-        // Increase difficulty every 5 seconds
-        if (Time.time >= nextDifficultyIncrease)
-        {
-            IncreaseRound1Difficulty();
-            nextDifficultyIncrease = Time.time + 5f;
-        }
-    }
-
-    void SpawnRound1Asteroids()
-    {
-        for (int i = 0; i < currentAsteroidCount; i++)
-        {
-            Vector3 spawnPos = GetRandomSpawnPosition();
-            GameObject asteroid = Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
-
-            AsteroidController controller = asteroid.GetComponent<AsteroidController>();
-            if (controller != null)
-            {
-                controller.SetSpeed(currentAsteroidSpeed + Random.Range(-0.5f, 0.5f));
-                controller.maxHealth = 3; // 3 hits to destroy
-            }
-
-            Destroy(asteroid, destroyAfterSeconds);
-        }
-    }
-
-    void IncreaseRound1Difficulty()
-    {
-        // Increase asteroid count (max 10)
-        if (currentAsteroidCount < round1MaxAsteroids)
-        {
-            currentAsteroidCount++;
-        }
-
-        // Decrease spawn interval (min 0.5s)
-        currentSpawnInterval = Mathf.Max(round1MinInterval, currentSpawnInterval - round1IntervalDecrease);
-
-        // Increase speed (max 10)
-        currentAsteroidSpeed = Mathf.Min(round1MaxSpeed, currentAsteroidSpeed + 0.5f);
-
-        Debug.Log($"Round 1 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
-    }
-
-    // ========== ROUND 2: Row spawning ==========
-    void InitializeRound2()
-    {
         nextSpawnTime = Time.time;
         currentAsteroidCount = 3; // Start with 3 asteroids per row
     }
 
-    void UpdateRound2()
+    void UpdateRound1()
     {
         if (Time.time >= nextSpawnTime)
         {
-            SpawnRound2Row();
-            nextSpawnTime = Time.time + round2RowSpawnInterval;
+            SpawnRound1Row();
+            nextSpawnTime = Time.time + round1SpawnInterval;
 
             // Gradually increase asteroids per row (max 8)
-            if (currentAsteroidCount < round2MaxAsteroidsPerRow)
+            if (currentAsteroidCount < round1MaxAsteroids)
             {
                 currentAsteroidCount++;
             }
         }
     }
 
-    void SpawnRound2Row()
+    void SpawnRound1Row()
     {
         // Calculate spacing between asteroids
-        float totalWidth = (currentAsteroidCount - 1) * round2RowSpacing;
+        float totalWidth = (currentAsteroidCount - 1) * round1RowSpacing;
         float startX = -totalWidth / 2f;
 
         // Create array of positions and shuffle them
         Vector3[] positions = new Vector3[currentAsteroidCount];
         for (int i = 0; i < currentAsteroidCount; i++)
         {
-            positions[i] = new Vector3(startX + i * round2RowSpacing, spawnHeight, 0f);
+            positions[i] = new Vector3(startX + i * round1RowSpacing, spawnHeight, 0f);
         }
 
         // Shuffle positions
@@ -312,7 +250,69 @@ void TestRoundProgression()
             Destroy(asteroid, destroyAfterSeconds);
         }
 
-        Debug.Log($"Round 2: Spawned row of {currentAsteroidCount} asteroids");
+        //Debug.Log($"Round 1: Spawned row of {currentAsteroidCount} asteroids");
+    }
+
+    // ========== ROUND 2: Progressive spawning (formerly Round 1) ==========
+    void InitializeRound2()
+    {
+        currentAsteroidCount = 1;
+        currentSpawnInterval = round2SpawnInterval;
+        currentAsteroidSpeed = 1f;
+        nextSpawnTime = Time.time;
+        nextDifficultyIncrease = Time.time + 5f; // Increase every 5 seconds
+    }
+
+    void UpdateRound2()
+    {
+        // Spawn asteroids
+        if (Time.time >= nextSpawnTime)
+        {
+            SpawnRound2Asteroids();
+            nextSpawnTime = Time.time + currentSpawnInterval;
+        }
+
+        // Increase difficulty every 5 seconds
+        if (Time.time >= nextDifficultyIncrease)
+        {
+            IncreaseRound2Difficulty();
+            nextDifficultyIncrease = Time.time + 5f;
+        }
+    }
+
+    void SpawnRound2Asteroids()
+    {
+        for (int i = 0; i < currentAsteroidCount; i++)
+        {
+            Vector3 spawnPos = GetRandomSpawnPosition();
+            GameObject asteroid = Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
+
+            AsteroidController controller = asteroid.GetComponent<AsteroidController>();
+            if (controller != null)
+            {
+                controller.SetSpeed(currentAsteroidSpeed + Random.Range(-0.5f, 0.5f));
+                controller.maxHealth = 3; // 3 hits to destroy
+            }
+
+            Destroy(asteroid, destroyAfterSeconds);
+        }
+    }
+
+    void IncreaseRound2Difficulty()
+    {
+        // Increase asteroid count (max 8)
+        if (currentAsteroidCount < round2MaxAsteroidsPerRow)
+        {
+            currentAsteroidCount++;
+        }
+
+        // Decrease spawn interval (min 0.5s)
+        currentSpawnInterval = Mathf.Max(round2MinInterval, currentSpawnInterval - round2IntervalDecrease);
+
+        // Increase speed (max 10)
+        currentAsteroidSpeed = Mathf.Min(round2MaxSpeed, currentAsteroidSpeed + 0.5f);
+
+        //Debug.Log($"Round 2 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
     }
 
     // ========== ROUND 3: Splitting asteroids ==========
@@ -446,7 +446,7 @@ void TestRoundProgression()
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log($"Score added: +{points}, Total score: {score}");
+        //Debug.Log($"Score added: +{points}, Total score: {score}");
         UpdateScoreText();
     }
 
