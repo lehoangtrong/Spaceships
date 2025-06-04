@@ -8,17 +8,22 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject instructionsPanel;
 
     public Slider volumeSlider; // Slider để điều chỉnh âm lượng
-    public AudioMixer audioMixer; // AudioMixer để quản lý âm lượng
+    public AudioMixer mixer; // AudioMixer để quản lý âm lượng
+    public float value;
+
+    private void Start()
+    {
+        // Audio initialization
+        mixer.GetFloat("volume", out value);
+        volumeSlider.value = value; // Gán giá trị âm lượng ban đầu cho slider
+        
+        // UI initialization
+        instructionsPanel.SetActive(false); // Ẩn Panel khi bắt đầu
+    }
 
     public void SetVolume()
     {
-        audioMixer.SetFloat("volume", volumeSlider.value);
-    }
-
-    void Start()
-    {
-        // Ẩn Panel khi bắt đầu
-        instructionsPanel.SetActive(false);
+        mixer.SetFloat("volume", volumeSlider.value);
     }
 
     public void StartGame()
