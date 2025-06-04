@@ -99,7 +99,7 @@ void TestRoundProgression()
 {
     if (Input.GetKeyDown(KeyCode.N)) // Press N to advance to next round
     {
-        Debug.Log("Manual round advancement - Current round: " + currentRound);
+        //Debug.Log("Manual round advancement - Current round: " + currentRound);
         if (currentRound < 3)
         {
             StartRound(currentRound + 1);
@@ -109,7 +109,7 @@ void TestRoundProgression()
     if (Input.GetKeyDown(KeyCode.P)) // Press P to add 10 points
     {
         AddScore(10);
-        Debug.Log("Added 10 points for testing");
+        //Debug.Log("Added 10 points for testing");
     }
 }
 
@@ -135,28 +135,28 @@ void TestRoundProgression()
 
     void CheckRoundProgression()
     {
-        Debug.Log($"CheckRoundProgression: Current Round={currentRound}, Score={score}");
+        //Debug.Log($"CheckRoundProgression: Current Round={currentRound}, Score={score}");
 
         switch (currentRound)
         {
             case 1:
-                Debug.Log($"Round 1 check: Score={score}, Required={round1RequiredScore}");
+                //Debug.Log($"Round 1 check: Score={score}, Required={round1RequiredScore}");
                 if (score >= round1RequiredScore)
                 {
-                    Debug.Log("Advancing to Round 2!");
+                    //Debug.Log("Advancing to Round 2!");
                     StartRound(2);
                 }
                 break;
             case 2:
-                Debug.Log($"Round 2 check: Score={score}, Required={round2RequiredScore}");
+                //Debug.Log($"Round 2 check: Score={score}, Required={round2RequiredScore}");
                 if (score >= round2RequiredScore)
                 {
-                    Debug.Log("Advancing to Round 3!");
+                    //Debug.Log("Advancing to Round 3!");
                     StartRound(3);
                 }
                 break;
             case 3:
-                Debug.Log($"Round 3 check: Score={score}, Required={round3RequiredScore}");
+                //Debug.Log($"Round 3 check: Score={score}, Required={round3RequiredScore}");
                 if (score >= round3RequiredScore)
                 {
                     Debug.Log("Game Completed!");
@@ -248,7 +248,7 @@ void TestRoundProgression()
         // Increase speed (max 10)
         currentAsteroidSpeed = Mathf.Min(round1MaxSpeed, currentAsteroidSpeed + 0.5f);
 
-        Debug.Log($"Round 1 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
+        //Debug.Log($"Round 1 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
     }
 
     // ========== ROUND 2: Row spawning ==========
@@ -310,7 +310,7 @@ void TestRoundProgression()
             Destroy(asteroid, destroyAfterSeconds);
         }
 
-        Debug.Log($"Round 2: Spawned row of {currentAsteroidCount} asteroids");
+        //Debug.Log($"Round 2: Spawned row of {currentAsteroidCount} asteroids");
     }
 
     // ========== ROUND 3: Splitting asteroids ==========
@@ -443,7 +443,7 @@ void TestRoundProgression()
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log($"Score added: +{points}, Total score: {score}");
+        //Debug.Log($"Score added: +{points}, Total score: {score}");
         UpdateScoreText();
     }
 
