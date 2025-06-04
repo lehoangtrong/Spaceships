@@ -17,11 +17,18 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
-
+        AsteroidController asteroidController = FindObjectOfType<AsteroidController>();
         Debug.Log("Start Game");
         GameManager.score = 0; // Reset score to 0
         Time.timeScale = 1f;
-        AsteroidController.playerLife = 3; // Reset player life to 3
+        if (asteroidController != null)
+        {
+            asteroidController.maxHealth = 3; // Reset player life to 3
+        }
+        else
+        {
+            Debug.LogWarning("AsteroidController not found in the scene.");
+        }
         SceneManager.LoadScene("GamePlay"); // Tên cảnh cần load
     }
 

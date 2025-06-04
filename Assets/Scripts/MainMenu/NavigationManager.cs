@@ -12,11 +12,12 @@ public class NavigationManager : MonoBehaviour
 
     public void StartAgain()
     {
+        AsteroidController asteroidController = FindObjectOfType<AsteroidController>();
         Debug.Log("Starting Game Again");
         // Load the gameplay scene
         GameManager.score = 0; // Reset score to 0
         Time.timeScale = 1f;
-        AsteroidController.playerLife = 3; // Reset player life to 3
+        asteroidController.maxHealth = 3; // Reset player life to 3
         SceneManager.LoadScene("GamePlay");
     }
 }

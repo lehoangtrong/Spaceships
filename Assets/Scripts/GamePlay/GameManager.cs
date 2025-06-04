@@ -2,6 +2,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -408,6 +409,7 @@ void TestRoundProgression()
             Destroy(playerObject);
         }
         Time.timeScale = 0f;
+        SceneManager.LoadScene("EndGame"); // Load Game Over scene
     }
 
     void GameCompleted()
