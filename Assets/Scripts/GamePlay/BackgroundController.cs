@@ -8,14 +8,12 @@ public class BackgroundController : MonoBehaviour
 
     void Start()
     {
-        // Lấy tất cả các background con
         backgrounds = new Transform[transform.childCount];
         for (int i = 0; i < backgrounds.Length; i++)
         {
             backgrounds[i] = transform.GetChild(i);
         }
 
-        // Giả sử tất cả background có cùng chiều cao
         backgroundHeight = backgrounds[0].GetComponent<SpriteRenderer>().bounds.size.y;
     }
 
@@ -23,29 +21,29 @@ public class BackgroundController : MonoBehaviour
     {
         for (int i = 0; i < backgrounds.Length; i++)
         {
-            // Di chuyển từng background lên
-            backgrounds[i].position += Vector3.up * scrollSpeed * Time.fixedDeltaTime;
+            // Di chuyển từng background xuống
+            backgrounds[i].position += Vector3.down * scrollSpeed * Time.fixedDeltaTime;
         }
 
-        // Kiểm tra nếu background vượt khỏi vị trí hiển thị thì đưa về dưới cùng
+        // Kiểm tra nếu background vượt khỏi vị trí hiển thị thì đưa về trên cùng
         for (int i = 0; i < backgrounds.Length; i++)
         {
-            if (backgrounds[i].position.y - backgroundHeight / 2 > Camera.main.transform.position.y + Camera.main.orthographicSize)
+            if (backgrounds[i].position.y + backgroundHeight / 2 < Camera.main.transform.position.y - Camera.main.orthographicSize)
             {
-                // Tìm background có y thấp nhất
-                float lowestY = backgrounds[0].position.y;
+                // Tìm background có y cao nhất
+                float highestY = backgrounds[0].position.y;
                 for (int j = 1; j < backgrounds.Length; j++)
                 {
-                    if (backgrounds[j].position.y < lowestY)
+                    if (backgrounds[j].position.y > highestY)
                     {
-                        lowestY = backgrounds[j].position.y;
+                        highestY = backgrounds[j].position.y;
                     }
                 }
 
-                // Đưa background này xuống dưới cùng
+                // Đưa background này lên trên cùng
                 backgrounds[i].position = new Vector3(
                     backgrounds[i].position.x,
-                    lowestY - backgroundHeight,
+                    highestY + backgroundHeight,
                     backgrounds[i].position.z
                 );
             }

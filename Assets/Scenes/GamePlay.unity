@@ -726,9 +726,9 @@ GameObject:
   - component: {fileID: 946516003}
   - component: {fileID: 946516006}
   - component: {fileID: 946516007}
-  - component: {fileID: 946516008}
   - component: {fileID: 946516009}
   - component: {fileID: 946516010}
+  - component: {fileID: 946516011}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -879,8 +879,43 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &946516008
-BoxCollider2D:
+--- !u!114 &946516009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946516002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cb332410a6dd40478d4cced35f1d801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserPrefab: {fileID: 5640739876419602147, guid: 6a116a7b38c1af141800f3057a3ebcaa, type: 3}
+  firePoint: {fileID: 2146792642}
+  cooldownTime: 0.2
+  autoFire: 0
+  laserSound: {fileID: 0}
+  useMouseInput: 1
+  useKeyboardInput: 1
+--- !u!114 &946516010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946516002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6a404ab9ff1814d9e16ba5fc2e2a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldDuration: 3
+  shieldVisual: {fileID: 1100155091}
+  shieldActivateSound: {fileID: 0}
+  shieldDeactivateSound: {fileID: 0}
+--- !u!60 &946516011
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -923,43 +958,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.48, y: 0.48}
-  m_EdgeRadius: 0
---- !u!114 &946516009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946516002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb332410a6dd40478d4cced35f1d801, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserPrefab: {fileID: 5640739876419602147, guid: 6a116a7b38c1af141800f3057a3ebcaa, type: 3}
-  firePoint: {fileID: 2146792642}
-  cooldownTime: 0.2
-  autoFire: 0
-  laserSound: {fileID: 0}
-  useMouseInput: 1
-  useKeyboardInput: 1
---- !u!114 &946516010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946516002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f6a404ab9ff1814d9e16ba5fc2e2a4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shieldDuration: 3
-  shieldVisual: {fileID: 1100155091}
-  shieldActivateSound: {fileID: 0}
-  shieldDeactivateSound: {fileID: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -0.036484327, y: 0.15241753}
+      - {x: -0.08020747, y: 0.043365084}
+      - {x: -0.17758247, y: -0.034175344}
+      - {x: -0.17999999, y: -0.12}
+      - {x: -0.1688705, y: -0.13757586}
+      - {x: -0.069231704, y: -0.09197912}
+      - {x: -0.054390576, y: -0.14755408}
+      - {x: 0.033142198, y: -0.14991081}
+      - {x: 0.054427754, y: -0.098528646}
+      - {x: 0.1527474, y: -0.14274737}
+      - {x: 0.16682385, y: -0.048269626}
+      - {x: 0.116484344, y: -0.0069228}
+      - {x: 0.060486276, y: 0.04665715}
+      - {x: 0.02, y: 0.14999999}
+  m_UseDelaunayMesh: 0
 --- !u!1 &1100155091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,12 +1541,12 @@ MonoBehaviour:
   destroyAfterSeconds: 10
   initialAsteroidCount: 3
   initialSpawnInterval: 2
-  initialAsteroidSpeed: 5
-  difficultyIncreaseInterval: 5
+  initialAsteroidSpeed: 1
+  difficultyIncreaseInterval: 10
   asteroidCountIncrease: 1
   spawnIntervalDecrease: 0.2
   speedIncrease: 1
-  maxAsteroidCount: 8
+  maxAsteroidCount: 10
   minSpawnInterval: 0.5
   maxAsteroidSpeed: 15
   score: 0
