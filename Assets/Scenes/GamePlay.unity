@@ -780,6 +780,7 @@ MonoBehaviour:
   minX: -8
   maxX: 8
   destroyAfterSeconds: 10
+  scoreText: {fileID: 238149520}
 --- !u!4 &2093162527
 Transform:
   m_ObjectHideFlags: 0
@@ -933,6 +934,4 @@ SceneRoots:
   - {fileID: 1656013484}
   - {fileID: 1456408493}
   - {fileID: 2093162527}
-  - {fileID: 333770908}
-  - {fileID: 230935595}
   - {fileID: 2102340348}
