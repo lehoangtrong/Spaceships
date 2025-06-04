@@ -17,16 +17,25 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] GameObject highscoreUIElementPrefab;
     [SerializeField] Transform elementWrapper;
     [SerializeField] TMP_InputField nameInputField;
+    [SerializeField] GameObject UiButtonPanel;
 
     List<GameObject> uiElements = new List<GameObject>();
 
+    private void Awake()
+    {
+        Debug.Log("ScoreManager: Awake - Registering event listener");
+        HighscoreHandler.onHighscoreListChanged += UpdateUI;
+    }
+
     public void Start()
     {
+        Debug.Log("ScoreManager: Start");
         int score = GameManager.score;
 
         if (scoreValue != null)
         {
             scoreValue.text = score.ToString();
+            Debug.Log($"ScoreManager: Score displayed: {score}");
         }
         else
         {
@@ -40,10 +49,59 @@ public class ScoreManager : MonoBehaviour
             return;
         }
 
+        ShowPanel();
+
         scoreIndex = highscoreHandler.ScoreIndex(score);
+        Debug.Log($"ScoreManager: Score index: {scoreIndex}");
+
+        Debug.Log("Score Index: " + scoreIndex);
+        TryShowEnterNamePanel(scoreIndex);
+
+        StartCoroutine(DelayedUpdateUI());
+    }
+
+    private System.Collections.IEnumerator DelayedUpdateUI()
+    {
+        yield return null;
+
+        Debug.Log("ScoreManager: Requesting initial UI update");
+        if (highscoreHandler != null)
+        {
+            var currentList = GetCurrentHighscoreList();
+            if (currentList != null)
+            {
+                Debug.Log($"ScoreManager: Found {currentList.Count} existing highscores");
+                UpdateUI(currentList);
+            }
+        }
+    }
+
+    private List<HighscoreElement> GetCurrentHighscoreList()
+    {
+        if (highscoreHandler == null) return null;
+
+        return null;
+    }
+
+    public void ShowMenuRecords()
+    {
+
+        highscoreHandler = FindObjectOfType<HighscoreHandler>();
+        if (highscoreHandler == null)
+        {
+            Debug.LogError("HighscoreHandler not found in scene!");
+            return;
+        }
+
+        UiButtonPanel.SetActive(false);
 
         ShowPanel();
-        TryShowEnterNamePanel(scoreIndex);
+    }
+
+    public void CloseMenuRecord()
+    {
+        UiButtonPanel.SetActive(true);
+        ClosePanel();
     }
 
     public void OnSaveButtonClick()
@@ -62,8 +120,8 @@ public class ScoreManager : MonoBehaviour
         }
 
         HighscoreElement newEntry = new HighscoreElement(playerName, GameManager.score);
+        Debug.Log($"ScoreManager: Adding highscore - Name: {playerName}, Score: {GameManager.score}");
         highscoreHandler.AddHighscore(scoreIndex, newEntry);
-        //highscoreHandler.AddHighscoreIfPossible(newEntry); // ví dụ
         enterNamePanel.SetActive(false);
     }
 
@@ -81,15 +139,12 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    ////////////////////////
-
-
-    private void OnEnable()
+    private void OnDisable()
     {
-        HighscoreHandler.onHighscoreListChanged += UpdateUI;
+        HighscoreHandler.onHighscoreListChanged -= UpdateUI;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         HighscoreHandler.onHighscoreListChanged -= UpdateUI;
     }
@@ -97,36 +152,72 @@ public class ScoreManager : MonoBehaviour
     public void ShowPanel()
     {
         panel.SetActive(true);
+        Debug.Log("ScoreManager: Panel shown");
     }
 
     public void ClosePanel()
     {
         panel.SetActive(false);
+        Debug.Log("ScoreManager: Panel closed");
     }
 
     private void UpdateUI(List<HighscoreElement> list)
     {
+        Debug.Log($"ScoreManager: UpdateUI called with {list?.Count ?? 0} elements");
+
+        if (highscoreUIElementPrefab == null)
+        {
+            Debug.LogError("ScoreManager: highscoreUIElementPrefab is not assigned!");
+            return;
+        }
+
+        if (elementWrapper == null)
+        {
+            Debug.LogError("ScoreManager: elementWrapper is not assigned!");
+            return;
+        }
+
+        if (list == null || list.Count == 0)
+        {
+            Debug.LogWarning("ScoreManager: Highscore list is null or empty");
+            foreach (var uiElement in uiElements)
+            {
+                if (uiElement != null)
+                {
+                    uiElement.SetActive(false);
+                }
+            }
+            return;
+        }
+
         for (int i = 0; i < list.Count; i++)
         {
             HighscoreElement el = list[i];
 
             if (el != null && el.score >= 0)
             {
+                //Debug.Log($"ScoreManager: Processing highscore {i}: {el.playerName} - {el.score}");
+
                 if (i >= uiElements.Count)
                 {
-                    // instantiate new entry
-                    var inst = Instantiate(highscoreUIElementPrefab, Vector3.zero, Quaternion.identity);
-                    inst.transform.SetParent(elementWrapper, false);
+                    //Debug.Log($"ScoreManager: Creating new UI element for index {i}");
+                    var inst = Instantiate(highscoreUIElementPrefab, elementWrapper);
+                    if (inst == null)
+                    {
+                        Debug.LogError($"Failed to instantiate highscoreUIElementPrefab for index {i}");
+                        continue;
+                    }
 
                     uiElements.Add(inst);
                 }
 
-                // write or overwrite name & score
+                uiElements[i].SetActive(true);
+
                 var texts = uiElements[i].GetComponentsInChildren<TextMeshProUGUI>();
 
                 if (texts.Length < 3)
                 {
-                    Debug.LogError($"UI Element at index {i} is missing text components.");
+                    Debug.LogError($"UI Element at index {i} is missing text components. Found: {texts.Length}");
                     continue;
                 }
                 int rank = i + 1;
@@ -135,6 +226,16 @@ public class ScoreManager : MonoBehaviour
                 texts[2].text = el.score.ToString();
             }
         }
+
+        for (int i = list.Count; i < uiElements.Count; i++)
+        {
+            if (uiElements[i] != null)
+            {
+                uiElements[i].SetActive(false);
+            }
+        }
+
+        Debug.Log("ScoreManager: UpdateUI completed successfully");
     }
 
 }

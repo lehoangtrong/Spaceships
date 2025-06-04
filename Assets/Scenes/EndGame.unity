@@ -1584,8 +1584,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 842968187}
-  - component: {fileID: 842968186}
   - component: {fileID: 842968189}
+  - component: {fileID: 842968186}
   m_Layer: 0
   m_Name: ScoreManager
   m_TagString: Untagged
@@ -2688,7 +2688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1981501578995267912, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 90.57727
       objectReference: {fileID: 0}
     - target: {fileID: 1981501578995267912, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2696,7 +2696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1981501578995267912, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 334.71317
       objectReference: {fileID: 0}
     - target: {fileID: 1981501578995267912, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2740,7 +2740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4993875935653031166, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 78.017265
       objectReference: {fileID: 0}
     - target: {fileID: 4993875935653031166, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2748,7 +2748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4993875935653031166, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 39.008633
       objectReference: {fileID: 0}
     - target: {fileID: 4993875935653031166, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2850,6 +2850,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7045780325639443201, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
+      propertyPath: m_margin.x
+      value: 34.263233
+      objectReference: {fileID: 0}
     - target: {fileID: 7180694400437908921, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: filename
       value: highscores.json
@@ -2872,7 +2876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7597119574675034870, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 211.40726
       objectReference: {fileID: 0}
     - target: {fileID: 7597119574675034870, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2885,6 +2889,10 @@ PrefabInstance:
     - target: {fileID: 7597119574675034870, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050514853536477024, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
+      propertyPath: m_margin.x
+      value: 24.508995
       objectReference: {fileID: 0}
     - target: {fileID: 8521557072849065324, guid: f467f73113fdbde4496f00b0fcdead59, type: 3}
       propertyPath: m_AnchorMax.y

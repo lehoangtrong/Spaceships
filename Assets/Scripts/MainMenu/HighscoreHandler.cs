@@ -8,34 +8,80 @@ public class HighscoreHandler : MonoBehaviour
     List<HighscoreElement> highscoreList = new List<HighscoreElement>();
     [SerializeField] int maxCount = 5;
     [SerializeField] string filename;
-    
 
     public delegate void OnHighscoreListChanged(List<HighscoreElement> list);
     public static event OnHighscoreListChanged onHighscoreListChanged;
 
-    public void Start()
+    private void Awake()
     {
         LoadHighscores();
+        
     }
+    //private void LoadHighscores()
+    //{
+    //    highscoreList = FileHandler.ReadListFromJSON<HighscoreElement>(filename);
+
+    //    while (highscoreList.Count > maxCount)
+    //    {
+    //        highscoreList.RemoveAt(maxCount);
+    //    }
+
+    //    if (onHighscoreListChanged != null)
+    //    {
+    //        onHighscoreListChanged.Invoke(highscoreList);
+    //    }
+    //}
 
     private void LoadHighscores()
     {
-        highscoreList = FileHandler.ReadListFromJSON<HighscoreElement>(filename);
-
-        while (highscoreList.Count > maxCount)
+        try
         {
-            highscoreList.RemoveAt(maxCount);
+            if (string.IsNullOrEmpty(filename))
+            {
+                Debug.LogError("Filename is not set for HighscoreHandler!");
+                filename = "highscores.json";
+            }
+
+            highscoreList = FileHandler.ReadListFromJSON<HighscoreElement>(filename);
+
+            while (highscoreList.Count > maxCount)
+            {
+                highscoreList.RemoveAt(maxCount);
+            }
+
+            if (onHighscoreListChanged != null)
+            {
+                onHighscoreListChanged.Invoke(highscoreList);
+            }
         }
-
-        if (onHighscoreListChanged != null)
+        catch (System.Exception e)
         {
-            onHighscoreListChanged.Invoke(highscoreList);
+            Debug.LogError($"Failed to load highscores: {e.Message}");
+            highscoreList = new List<HighscoreElement>();
         }
     }
 
+    //private void SaveHighscore()
+    //{
+    //    FileHandler.SaveToJSON<HighscoreElement>(highscoreList, filename);
+    //}
     private void SaveHighscore()
     {
-        FileHandler.SaveToJSON<HighscoreElement>(highscoreList, filename);
+        try
+        {
+            if (string.IsNullOrEmpty(filename))
+            {
+                Debug.LogError("Cannot save: filename is not set!");
+                return;
+            }
+
+            FileHandler.SaveToJSON<HighscoreElement>(highscoreList, filename);
+            Debug.Log($"Highscores saved successfully to {filename}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to save highscores: {e.Message}");
+        }
     }
 
     public int ScoreIndex(int score)
@@ -51,17 +97,29 @@ public class HighscoreHandler : MonoBehaviour
             }
         }
 
+        if (highscoreList.Count < maxCount)
+        {
+            return highscoreList.Count;
+        }
+
         return -1;
     }
 
     public void AddHighscore(int index, HighscoreElement element)
     {
-        if (index < 0 || index >= maxCount)
+        if (index < 0 || index >= maxCount && highscoreList.Count >= maxCount)
         {
-            Debug.LogError("Index out of bounds for highscore list.");
+            Debug.LogError($"Index out of bounds for highscore list. Index: {index}, Count: {highscoreList.Count}, MaxCount: {maxCount}");
             return;
         }
-        highscoreList.Insert(index, element);
+        if (index >= highscoreList.Count)
+        {
+            highscoreList.Add(element);
+        }
+        else
+        {
+            highscoreList.Insert(index, element);
+        }
 
         while (highscoreList.Count > maxCount)
         {

@@ -5,11 +5,14 @@ public class MainMenuManager : MonoBehaviour
 {
     // SerializeField cho phép gán giá trị trực tiếp mà không cần public 
     [SerializeField] private GameObject instructionsPanel;
+    [SerializeField] private GameObject recordTablePanel;
 
     void Start()
     {
         // Ẩn Panel khi bắt đầu
         instructionsPanel.SetActive(false);
+        recordTablePanel.SetActive(false);
+
     }
 
     public void StartGame()

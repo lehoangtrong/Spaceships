@@ -764,7 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCount: 5
-  filename: score.json
+  filename: highscores.json
 --- !u!1001 &5958605160290137277
 PrefabInstance:
   m_ObjectHideFlags: 0
