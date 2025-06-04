@@ -2079,7 +2079,7 @@ MonoBehaviour:
   livesText: {fileID: 1722635253}
   playerObject: {fileID: 946516002}
   playerShield: {fileID: 0}
-  pauseMenuScreen: {fileID: 0}
+  pauseMenuScreen: {fileID: 2068845533}
 --- !u!4 &2093162527
 Transform:
   m_ObjectHideFlags: 0

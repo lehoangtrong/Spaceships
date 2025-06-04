@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 02be8425e4c967d42be2d35683153e1f
+guid: bc30e31efc8b66f41bb8545c8f696fe8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8842866002931225452
-    second: pixel-heart-Full_0
+      213: 6208176927266180224
+    second: Play_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pixel-heart-Full_0
+      name: Play_0
       rect:
         serializedVersion: 2
-        x: 93
-        y: 169
-        width: 1086
-        height: 939
+        x: 19
+        y: 12
+        width: 122
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 49ce7eac834d74580800000000000000
-      internalID: -8842866002931225452
+      spriteID: 08c0a74e500e72650800000000000000
+      internalID: 6208176927266180224
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      pixel-heart-Full_0: -8842866002931225452
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

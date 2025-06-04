@@ -27,9 +27,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     [Header("Player Lives")]
-    public TextMeshProUGUI livesText; // UI Text hiển thị số mạng còn lại
-    public GameObject playerObject; // Đối tượng người chơi
-    public ShieldController playerShield; // Component Shield của player
+    public TextMeshProUGUI livesText;
+    public GameObject playerObject;
+    public ShieldController playerShield;
+
+    [Header("UI")]
+    public GameObject pauseMenuScreen;
 
     public GameObject pauseMenuScreen;
 
@@ -63,7 +66,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         // Khởi tạo số mạng trong HealthManager (mặc định là 3)
-        HealthManager.health = 3; // Đổi từ playerLives thành số cố định 3
+        HealthManager.health = 3;
     }
 
     // Hàm giảm mạng người chơi và kích hoạt shield
@@ -88,7 +91,6 @@ public class GameManager : MonoBehaviour
     {
         if (livesText != null)
         {
-            // Sửa từ playerLives thành HealthManager.health
             livesText.text = "Lives: " + HealthManager.health.ToString();
         }
     }
@@ -142,16 +144,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Thêm phương thức để chuyển đổi giữa tạm dừng và tiếp tục
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
     public void PauseGame()
     {
         Time.timeScale = 0; // Dừng game
         pauseMenuScreen.SetActive(true);
+        isPaused = true;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1; // Tiếp tục game
         pauseMenuScreen.SetActive(false);
+        isPaused = false;
     }
 
     public void GoToMenu()
