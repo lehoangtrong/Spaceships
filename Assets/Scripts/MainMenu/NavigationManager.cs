@@ -7,17 +7,21 @@ public class NavigationManager : MonoBehaviour
     {
         Debug.Log("Returning to Home Screen");
         // Load the main menu scene 
-        SceneManager.LoadScene("MainMenu"); 
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void StartAgain()
     {
-        AsteroidController asteroidController = FindObjectOfType<AsteroidController>();
         Debug.Log("Starting Game Again");
-        // Load the gameplay scene
-        GameManager.score = 0; // Reset score to 0
+
+        // Reset game state through GameManager if it exists
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.score = 0; // Reset score to 0
+            GameManager.Instance.lives = 3; // Reset player lives to 3
+        }
+
         Time.timeScale = 1f;
-        asteroidController.maxHealth = 3; // Reset player life to 3
         SceneManager.LoadScene("GamePlay");
     }
 }

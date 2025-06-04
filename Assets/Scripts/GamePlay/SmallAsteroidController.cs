@@ -104,8 +104,8 @@ public class SmallAsteroidController : MonoBehaviour
 
     private void CheckPlayerShieldAndDamage()
     {
-        if (GameManager.Instance != null && GameManager.Instance.playerShield != null &&
-            GameManager.Instance.playerShield.IsShieldActive())
+        if (GameManager.Instance != null && GameManager.Instance.shieldController != null &&
+            GameManager.Instance.shieldController.IsShieldActive())
         {
             Debug.Log("Player shield blocked small asteroid.");
         }

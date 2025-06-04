@@ -1,11 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // Thư viện quản lý cảnh
-
+using UnityEngine.UI; // Thư viện UI để sử dụng các thành phần giao diện người dùng
+using UnityEngine.Audio; // Thư viện âm thanh để quản lý âm lượng và âm thanh
 public class MainMenuManager : MonoBehaviour
 {
     // SerializeField cho phép gán giá trị trực tiếp mà không cần public 
     [SerializeField] private GameObject instructionsPanel;
     [SerializeField] private GameObject recordTablePanel;
+
+    public Slider volumeSlider; // Slider để điều chỉnh âm lượng
+    public AudioMixer audioMixer; // AudioMixer để quản lý âm lượng
+
+    public void SetVolume()
+    {
+        audioMixer.SetFloat("volume", volumeSlider.value);
+    }
 
     void Start()
     {
@@ -14,21 +23,18 @@ public class MainMenuManager : MonoBehaviour
         recordTablePanel.SetActive(false);
 
     }
-
     public void StartGame()
     {
-        AsteroidController asteroidController = FindObjectOfType<AsteroidController>();
         Debug.Log("Start Game");
-        GameManager.score = 0; // Reset score to 0
+
+        // Reset game state through GameManager if it exists
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.score = 0; // Reset score to 0
+            GameManager.Instance.lives = 3; // Reset player lives to 3
+        }
+
         Time.timeScale = 1f;
-        if (asteroidController != null)
-        {
-            asteroidController.maxHealth = 3; // Reset player life to 3
-        }
-        else
-        {
-            Debug.LogWarning("AsteroidController not found in the scene.");
-        }
         SceneManager.LoadScene("GamePlay"); // Tên cảnh cần load
     }
 

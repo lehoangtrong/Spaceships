@@ -66,5 +66,6 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj",
     },
-    "dotnet.defaultSolution": "Spaceships.sln"
+    "dotnet.defaultSolution": "Spaceships.sln",
+    "dotnet.preferCSharpExtension": true
 }
