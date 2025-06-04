@@ -29,27 +29,12 @@ public class StarController : MonoBehaviour
         {
             if (audioSource != null && starSource != null)
             {
-                PlaySoundAtPosition(starSource, transform.position, 1f);
+                GameAudioManager.PlaySoundThroughMixer(starSource, transform.position, 1f);
             }
 
             Debug.Log("Star collected!");
             GameManager.Instance.AddScore(pointValue);
             Destroy(gameObject); // Destroy the star object
         }
-    }
-
-
-    private void PlaySoundAtPosition(AudioClip clip, Vector3 position, float volume = 1f)
-    {
-        GameObject tempGO = new GameObject("TempAudio");
-        tempGO.transform.position = position;
-
-        AudioSource aSource = tempGO.AddComponent<AudioSource>();
-        aSource.clip = clip;
-        aSource.volume = volume;
-        aSource.spatialBlend = 0f; // 0 = 2D sound
-        aSource.Play();
-
-        Destroy(tempGO, clip.length);
     }
 }

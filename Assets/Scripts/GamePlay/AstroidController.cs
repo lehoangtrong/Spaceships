@@ -71,7 +71,7 @@ public class AsteroidController : MonoBehaviour
             }
 
             // Nếu có âm thanh nổ, phát âm thanh tại vị trí của thiên thạch
-            if (explosionSound != null && audioSource != null)
+            if (explosionSound != null)
             {
                 GameAudioManager.PlaySoundThroughMixer(explosionSound, transform.position, 1f);
             }

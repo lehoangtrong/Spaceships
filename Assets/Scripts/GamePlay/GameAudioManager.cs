@@ -47,8 +47,22 @@ public class GameAudioManager : MonoBehaviour
         AudioSource aSource = tempGO.AddComponent<AudioSource>();
         aSource.clip = clip;
         
-        // Kết nối với AudioMixer
-        aSource.outputAudioMixerGroup = Instance.mixer.FindMatchingGroups("Master")[0];
+        // Thay đổi từ "Master" sang tên chính xác của AudioMixerGroup trong Unity
+        // Nếu bạn không chắc chắn, hãy kiểm tra trong Unity Editor
+        try {
+            var group = Instance.mixer.FindMatchingGroups("Master")[0];
+            aSource.outputAudioMixerGroup = group;
+            Debug.Log("Kết nối âm thanh với AudioMixerGroup: " + group.name);
+        }
+        catch (System.Exception e) {
+            Debug.LogError("Không tìm thấy AudioMixerGroup 'Master': " + e.Message);
+            // Thử tìm group khác nếu có
+            var groups = Instance.mixer.FindMatchingGroups("");
+            if (groups.Length > 0) {
+                aSource.outputAudioMixerGroup = groups[0];
+                Debug.Log("Sử dụng AudioMixerGroup thay thế: " + groups[0].name);
+            }
+        }
         
         aSource.spatialBlend = 0f; // 0 = 2D sound
         aSource.Play();
