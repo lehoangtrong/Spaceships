@@ -12,34 +12,37 @@ public class GameManager : MonoBehaviour
     public GameObject asteroidPrefab;
 
     [Header("Spawn Settings")]
-    public float spawnRangeX = 8f;              // Phạm vi spawn theo trục X
-    public float spawnHeight = 6f;              // Độ cao spawn (phía trên màn hình)
-    public float destroyAfterSeconds = 10f;     // Thời gian tự hủy thiên thạch
+    public float spawnRangeX = 8f;
+    public float spawnHeight = 6f;
+    public float destroyAfterSeconds = 10f;
 
     [Header("Initial Settings (lúc bắt đầu)")]
-    public int initialAsteroidCount = 3;        // Số asteroid spawn ban đầu
-    public float initialSpawnInterval = 2f;      // Thời gian giữa các lần spawn ban đầu
-    public float initialAsteroidSpeed = 1f;     // Tốc độ asteroid ban đầu
+    public int initialAsteroidCount = 3;
+    public float initialSpawnInterval = 2f;
+    public float initialAsteroidSpeed = 1f;
 
     [Header("Difficulty Increase (mỗi 10 giây)")]
-    public float difficultyIncreaseInterval = 10f;  // Mỗi 10 giây tăng độ khó
-    public int asteroidCountIncrease = 1;           // Tăng số asteroid mỗi lần
-    public float spawnIntervalDecrease = 0.2f;      // Giảm thời gian spawn (spawn nhanh hơn)
-    public float speedIncrease = 1f;                // Tăng tốc độ asteroid
+    public float difficultyIncreaseInterval = 10f;
+    public int asteroidCountIncrease = 1;
+    public float spawnIntervalDecrease = 0.2f;
+    public float speedIncrease = 1f;
 
     [Header("Maximum Limits")]
-    public int maxAsteroidCount = 10;           // Số asteroid tối đa mỗi lần spawn
-    public float minSpawnInterval = 0.5f;       // Thời gian spawn tối thiểu
-    public float maxAsteroidSpeed = 15f;        // Tốc độ asteroid tối đa
+    public int maxAsteroidCount = 10;
+    public float minSpawnInterval = 0.5f;
+    public float maxAsteroidSpeed = 15f;
 
     [Header("Score")]
     public static int score = 0;
     public TextMeshProUGUI scoreText;
 
     [Header("Player Lives")]
-    public TextMeshProUGUI livesText; // UI Text hiển thị số mạng còn lại
-    public GameObject playerObject; // Đối tượng người chơi
-    public ShieldController playerShield; // Component Shield của player
+    public TextMeshProUGUI livesText;
+    public GameObject playerObject;
+    public ShieldController playerShield;
+
+    [Header("UI")]
+    public GameObject pauseMenuScreen;
 
     // Biến trạng thái hiện tại
     private int currentAsteroidCount;
@@ -71,7 +74,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         // Khởi tạo số mạng trong HealthManager (mặc định là 3)
-        HealthManager.health = 3; // Đổi từ playerLives thành số cố định 3
+        HealthManager.health = 3;
     }
 
     private void Start()
@@ -126,6 +129,13 @@ public class GameManager : MonoBehaviour
             IncreaseDifficulty();
             nextDifficultyIncreaseTime = Time.time + difficultyIncreaseInterval;
         }
+
+        // Kiểm tra khi người chơi bấm phím ESC
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Nếu game đang chạy, tạm dừng. Nếu đang tạm dừng, tiếp tục
+            TogglePause();
+        }
     }
 
     void IncreaseDifficulty()
@@ -150,7 +160,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnAsteroids()
     {
-        while (gameStarted && playerLives > 0)
+        while (gameStarted && HealthManager.health > 0)  // Thay playerLives thành HealthManager.health
         {
             yield return new WaitForSeconds(currentSpawnInterval);
 
@@ -200,16 +210,6 @@ public class GameManager : MonoBehaviour
         return new Vector3(randomX, randomY, 0f);
     }
 
-    private void Update()
-    {
-        // Kiểm tra khi người chơi bấm phím ESC
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // Nếu game đang chạy, tạm dừng. Nếu đang tạm dừng, tiếp tục
-            TogglePause();
-        }
-    }
-
     // ========== PLAYER & GAME STATE MANAGEMENT ==========
 
     // Hàm giảm mạng người chơi và kích hoạt shield
@@ -234,7 +234,6 @@ public class GameManager : MonoBehaviour
     {
         if (livesText != null)
         {
-            // Sửa từ playerLives thành HealthManager.health
             livesText.text = "Lives: " + HealthManager.health.ToString();
         }
     }
@@ -257,7 +256,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        playerLives = 3;
+        HealthManager.health = 3;  // Thay playerLives thành HealthManager.health
         score = 0;
 
         // Reset các giá trị difficulty
@@ -342,7 +341,7 @@ public class GameManager : MonoBehaviour
 
     public int GetCurrentLives()
     {
-        return playerLives;
+        return HealthManager.health;  // Thay playerLives thành HealthManager.health
     }
 
     public int GetCurrentDifficultyLevel()
