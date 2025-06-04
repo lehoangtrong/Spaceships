@@ -31,8 +31,9 @@ public class LaserShooter : MonoBehaviour
     void Update()
     {
         // Kiểm tra nếu game đang tạm dừng thì không xử lý bắn laser
-        if (GameManager.Instance != null && GameManager.Instance.IsPaused)
+        if (GameManager.Instance.IsPaused)
         {
+            Debug.Log("Game is paused, skipping laser update.");
             return; // Thoát khỏi hàm Update nếu game đang tạm dừng
         }
 

@@ -560,7 +560,7 @@ public class GameManager : MonoBehaviour
     private float currentAsteroidSpeed = 1f;
     private bool gameStarted = false;
 
-    public bool IsPaused { get; private set; }
+    public bool IsPaused { get;  set; }
 
     private bool isPaused = false;
  
