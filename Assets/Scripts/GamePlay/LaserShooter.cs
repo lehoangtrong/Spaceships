@@ -30,6 +30,12 @@ public class LaserShooter : MonoBehaviour
 
     void Update()
     {
+        // Kiểm tra nếu game đang tạm dừng thì không xử lý bắn laser
+        if (GameManager.Instance != null && GameManager.Instance.IsPaused)
+        {
+            return; // Thoát khỏi hàm Update nếu game đang tạm dừng
+        }
+
         // Cập nhật thời gian cooldown
         if (cooldownTimer > 0)
         {

@@ -33,6 +33,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenuScreen;
 
+    // Thêm biến theo dõi trạng thái tạm dừng
+    private bool isPaused = false;
+
+    // Thêm property để cho phép các script khác biết game có đang tạm dừng không
+    public bool IsPaused
+    {
+        get { return isPaused; }
+    }
+
     private void Start()
     {
         StartCoroutine(SpawnAsteroids());
@@ -50,6 +59,12 @@ public class GameManager : MonoBehaviour
 
         // Cập nhật hiển thị số mạng ban đầu
         UpdateLivesText();
+
+        // Đảm bảo pauseMenuScreen ẩn khi bắt đầu
+        if (pauseMenuScreen != null)
+        {
+            pauseMenuScreen.SetActive(false);
+        }
     }
 
     private void Awake()
@@ -64,6 +79,16 @@ public class GameManager : MonoBehaviour
         }
         // Khởi tạo số mạng trong HealthManager (mặc định là 3)
         HealthManager.health = 3; // Đổi từ playerLives thành số cố định 3
+    }
+
+    private void Update()
+    {
+        // Kiểm tra khi người chơi bấm phím ESC
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Nếu game đang chạy, tạm dừng. Nếu đang tạm dừng, tiếp tục
+            TogglePause();
+        }
     }
 
     // Hàm giảm mạng người chơi và kích hoạt shield
@@ -142,16 +167,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Thêm phương thức để chuyển đổi giữa tạm dừng và tiếp tục
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
     public void PauseGame()
     {
         Time.timeScale = 0; // Dừng game
         pauseMenuScreen.SetActive(true);
+        isPaused = true;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1; // Tiếp tục game
         pauseMenuScreen.SetActive(false);
+        isPaused = false;
     }
 
     public void GoToMenu()
