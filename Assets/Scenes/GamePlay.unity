@@ -791,7 +791,7 @@ MonoBehaviour:
   firePoint: {fileID: 2146792642}
   cooldownTime: 0.2
   autoFire: 0
-  laserSound: {fileID: 0}
+  laserSound: {fileID: 8300000, guid: 1e1c59813e5f8b44cb279b8ca3ef931c, type: 3}
   useMouseInput: 1
   useKeyboardInput: 1
 --- !u!114 &946516010
@@ -1229,7 +1229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1722635253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,9 +1343,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1656013484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 806.66675, y: -25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2093162525
