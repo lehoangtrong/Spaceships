@@ -24,6 +24,8 @@ public class MainMenuManager : MonoBehaviour
     public void SetVolume()
     {
         mixer.SetFloat("volume", volumeSlider.value);
+        PlayerPrefs.SetFloat("MasterVolume", volumeSlider.value);
+        PlayerPrefs.Save();
     }
 
     public void StartGame()
