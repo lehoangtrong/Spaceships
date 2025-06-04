@@ -1,30 +1,55 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StarController : MonoBehaviour
 {
-    private float fallSpeed = 2f;
+    private AudioSource audioSource;
+    public AudioClip starSource;
+    private float fallSpeed = 1f;
     private float destroyAfterSeconds = 10f;
     public int pointValue = 10;
 
-    private void Start()
+    private void Awake()
     {
-        // Destroy the star after a certain time to prevent memory leaks
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void Start()
+    {
         Destroy(gameObject, destroyAfterSeconds);
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player ăn sao!");  // Kiểm tra va chạm có xảy ra
+            if (audioSource != null && starSource != null)
+            {
+                PlaySoundAtPosition(starSource, transform.position, 1f);
+            }
+
+            Debug.Log("Star collected!");
             GameManager.Instance.AddScore(pointValue);
-            Destroy(gameObject); // Hủy ngôi sao (KHÔNG hủy Player!)
+            Destroy(gameObject); // Destroy the star object
         }
+    }
+
+
+    private void PlaySoundAtPosition(AudioClip clip, Vector3 position, float volume = 1f)
+    {
+        GameObject tempGO = new GameObject("TempAudio");
+        tempGO.transform.position = position;
+
+        AudioSource aSource = tempGO.AddComponent<AudioSource>();
+        aSource.clip = clip;
+        aSource.volume = volume;
+        aSource.spatialBlend = 0f; // 0 = 2D sound
+        aSource.Play();
+
+        Destroy(tempGO, clip.length);
     }
 }
