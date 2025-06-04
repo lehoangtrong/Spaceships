@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1886690084783040196}
   - component: {fileID: 6111255934508992773}
   - component: {fileID: 7188778651412672414}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SmallAstteroid
-  m_TagString: Untagged
+  m_TagString: Asteriod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

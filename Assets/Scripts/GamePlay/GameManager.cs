@@ -606,7 +606,7 @@ public class GameManager : MonoBehaviour
         //}
 
         //TestRoundProgression();
-        //CheckRoundProgression();
+        CheckRoundProgression();
         switch (currentRound)
         {
             case 1:
@@ -619,6 +619,47 @@ public class GameManager : MonoBehaviour
                 UpdateRound3();
                 break;
         }
+    }
+
+    void CheckRoundProgression()
+    {
+        //Debug.Log($"CheckRoundProgression: Current Round={currentRound}, Score={score}");
+
+        switch (currentRound)
+        {
+            case 1:
+                //Debug.Log($"Round 1 check: Score={score}, Required={round1RequiredScore}");
+                if (score >= round1RequiredScore)
+                {
+                    //Debug.Log("Advancing to Round 2!");
+                    StartRound(2);
+                }
+                break;
+            case 2:
+                //Debug.Log($"Round 2 check: Score={score}, Required={round2RequiredScore}");
+                if (score >= round2RequiredScore)
+                {
+                    //Debug.Log("Advancing to Round 3!");
+                    StartRound(3);
+                }
+                break;
+            case 3:
+                //Debug.Log($"Round 3 check: Score={score}, Required={round3RequiredScore}");
+                if (score >= round3RequiredScore)
+                {
+                    Debug.Log("Game Completed!");
+                    GameCompleted();
+                }
+                break;
+        }
+    }
+
+    void GameCompleted()
+    {
+        Debug.Log("Game Completed! You finished all rounds!");
+        gameStarted = false;
+        StopAllCoroutines();
+        // Add game completion UI here
     }
 
     public void PauseGame()
@@ -673,6 +714,7 @@ public class GameManager : MonoBehaviour
 
     void InitializeRound1()
     {
+        Debug.Log("Initializing Round 1");
         nextSpawnTime = Time.time;
         currentAsteroidCount = 3; // Start with 3 asteroids per row
     }
@@ -734,6 +776,7 @@ public class GameManager : MonoBehaviour
 
     void InitializeRound2()
     {
+        Debug.Log("Initializing Round 2");
         currentAsteroidCount = 1;
         currentSpawnInterval = round2SpawnInterval;
         currentAsteroidSpeed = 1f;
