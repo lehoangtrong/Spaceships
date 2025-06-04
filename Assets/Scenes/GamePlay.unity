@@ -1536,19 +1536,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 1272100372888554421, guid: f4f5e0caf7f8b4b499890508d57b6063, type: 3}
+  smallAsteroidPrefab: {fileID: 0}
   spawnRangeX: 8
   spawnHeight: 6
   destroyAfterSeconds: 10
-  initialAsteroidCount: 3
-  initialSpawnInterval: 2
-  initialAsteroidSpeed: 1
-  difficultyIncreaseInterval: 10
-  asteroidCountIncrease: 1
-  spawnIntervalDecrease: 0.2
-  speedIncrease: 1
-  maxAsteroidCount: 10
-  minSpawnInterval: 0.5
-  maxAsteroidSpeed: 15
+  currentRound: 1
+  roundText: {fileID: 0}
+  round1SpawnInterval: 2
+  round1IntervalDecrease: 0.2
+  round1MinInterval: 0.5
+  round1MaxAsteroids: 10
+  round1MaxSpeed: 10
+  round1RequiredScore: 500
+  round2RowSpawnInterval: 3
+  round2MaxAsteroidsPerRow: 8
+  round2RowSpacing: 1.5
+  round2RequiredScore: 1000
+  round3SpawnInterval: 2.5
+  round3RequiredScore: 2000
   score: 0
   scoreText: {fileID: 238149520}
   playerLives: 3
