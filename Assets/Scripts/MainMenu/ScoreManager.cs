@@ -31,7 +31,7 @@ public class ScoreManager : MonoBehaviour
     public void Start()
     {
         Debug.Log("ScoreManager: Start");
-        int score = GameManager.Instance != null ? GameManager.score : 0;
+        int score = GameManager.score;
 
         if (scoreValue != null)
         {
@@ -154,7 +154,7 @@ public class ScoreManager : MonoBehaviour
             return;
         }
 
-        HighscoreElement newEntry = new HighscoreElement(playerName, GameManager.Instance != null ? GameManager.score : 0);
+        HighscoreElement newEntry = new HighscoreElement(playerName, GameManager.score);
         Debug.Log($"ScoreManager: Adding highscore - Name: {playerName}, Score: {(GameManager.Instance != null ? GameManager.score : 0)}");
         highscoreHandler.AddHighscore(scoreIndex, newEntry);
         enterNamePanel.SetActive(false);
