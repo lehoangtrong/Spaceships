@@ -20,21 +20,26 @@ public class GameManager : MonoBehaviour
     public float round1SpawnInterval = 3f;
     public int round1MaxAsteroids = 10;
     public float round1RowSpacing = 1f;
-    public int round1RequiredScore = 200;
+    public int round1RequiredScore = 100;
+    public float round1DifficultyIncreaseTime = 5f; // Tăng độ khó mỗi 10 giây
 
     [Header("Round 2 Settings")]
     public float round2SpawnInterval = 3f;
     public float round2IntervalDecrease = 0.2f;
-    public float round2MinInterval = 0.5f;
-    public int round2MaxAsteroidsPerRow = 10;
-    public float round2MaxSpeed = 10f;
-    public int round2RequiredScore = 400;
+    public float round2MinInterval = 0.3f;
+    public int round2MaxAsteroidsPerRow = 15;
+    public float round2MaxSpeed = 15f;
+    public int round2RequiredScore = 200;
+
+    [Header("Round 3 Settings")]
+    public float round3SpawnInterval = 2.5f;
+    public int round3RequiredScore = 300;
+    public float round3MinInterval = 0.5f;
+    public float round3MaxSpeed = 12f;
 
     [Header("Round System")]
     public int currentRound = 1;
     public TextMeshProUGUI roundText;
-    public float round3SpawnInterval = 2.5f;
-    public int round3RequiredScore = 500;
 
     [Header("Score")]
     public static int score = 0;
@@ -48,7 +53,6 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public GameObject pauseMenuScreen;
 
-
     // Round-specific variables
     private float nextSpawnTime;
     private float nextDifficultyIncrease;
@@ -57,10 +61,13 @@ public class GameManager : MonoBehaviour
     private float currentAsteroidSpeed = 1f;
     private bool gameStarted = false;
 
-    public bool IsPaused { get;  set; }
-
+    public bool IsPaused { get; set; }
     private bool isPaused = false;
- 
+
+    // Difficulty tracking
+    private float round1NextDifficultyIncrease;
+    private float round3NextDifficultyIncrease;
+
     private void Awake()
     {
         if (Instance == null)
@@ -80,9 +87,6 @@ public class GameManager : MonoBehaviour
         FindPlayerComponents();
         UpdateUI();
         StartRound(1);
-        round1RequiredScore = 10;
-        round2RequiredScore = 20;
-        round3RequiredScore = 500;
 
         if (pauseMenuScreen != null)
         {
@@ -99,13 +103,6 @@ public class GameManager : MonoBehaviour
             TogglePause();
         }
 
-        //if (currentRound == 3 && Time.time >= nextSpawnTime)
-        //{
-        //    SpawnRound3Asteroid();
-        //    nextSpawnTime = Time.time + round3SpawnInterval;
-        //}
-
-        //TestRoundProgression();
         CheckRoundProgression();
         switch (currentRound)
         {
@@ -123,69 +120,34 @@ public class GameManager : MonoBehaviour
 
     void CheckRoundProgression()
     {
-        //Debug.Log($"CheckRoundProgression: Current Round={currentRound}, Score={score}");
-
         switch (currentRound)
         {
             case 1:
-                Debug.Log($"Round 1 check: Score={score}, Required={round1RequiredScore}");
                 if (score >= round1RequiredScore)
                 {
-                    //Debug.Log("Advancing to Round 2!");
+                    // Tăng độ khó cho cycle tiếp theo
+                    round1RequiredScore += 30;
+                    round2RequiredScore += 40;
+                    round3RequiredScore += 50;
+                    
                     StartRound(2);
                 }
                 break;
             case 2:
-                Debug.Log($"Round 2 check: Score={score}, Required={round2RequiredScore}");
                 if (score >= round2RequiredScore)
                 {
-                    //Debug.Log("Advancing to Round 3!");
                     StartRound(3);
                 }
                 break;
             case 3:
-                Debug.Log($"Round 3 check: Score={score}, Required={round3RequiredScore}");
                 if (score >= round3RequiredScore)
                 {
-                    Debug.Log("Game Completed!");
-                    GameCompleted();
+                    Debug.Log("Completing Round 3, looping back to Round 1!");
+                    
+                    // Reset về Round 1 với độ khó cao hơn
+                    StartRound(1);
                 }
                 break;
-        }
-    }
-
-    void GameCompleted()
-    {
-        Debug.Log("Game Completed! You finished all rounds!");
-        gameStarted = false;
-        StopAllCoroutines();
-        // Add game completion UI here
-    }
-
-    public void PauseGame()
-    {
-        Time.timeScale = 0; // Dừng game
-        pauseMenuScreen.SetActive(true);
-        isPaused = true;
-    }
-
-    void InitializeGame()
-    {
-        score = 0;
-        HealthManager.health = 3;
-        currentRound = 1;
-        gameStarted = true;
-    }
-
-    void FindPlayerComponents()
-    {
-        if (playerObject == null)
-        {
-            playerObject = GameObject.FindGameObjectWithTag("Player");
-        }
-        if (playerObject != null)
-        {
-            shieldController = playerObject.GetComponent<ShieldController>();
         }
     }
 
@@ -216,31 +178,51 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Initializing Round 1");
         nextSpawnTime = Time.time;
-        currentAsteroidCount = 3; // Start with 3 asteroids per row
+        currentAsteroidCount = 3;
+        currentSpawnInterval = round1SpawnInterval;
+        currentAsteroidSpeed = 2f;
+        round1NextDifficultyIncrease = Time.time + round1DifficultyIncreaseTime;
     }
 
     void UpdateRound1()
     {
+        // Spawn asteroids
         if (Time.time >= nextSpawnTime)
         {
             SpawnRound1Row();
-            nextSpawnTime = Time.time + round1SpawnInterval;
-
-            // Gradually increase asteroids per row (max 8)
-            if (currentAsteroidCount < round1MaxAsteroids)
-            {
-                currentAsteroidCount++;
-            }
+            nextSpawnTime = Time.time + currentSpawnInterval;
         }
+
+        // Increase difficulty over time
+        if (Time.time >= round1NextDifficultyIncrease)
+        {
+            IncreaseRound1Difficulty();
+            round1NextDifficultyIncrease = Time.time + round1DifficultyIncreaseTime;
+        }
+    }
+
+    void IncreaseRound1Difficulty()
+    {
+        // Increase asteroid count
+        if (currentAsteroidCount < round1MaxAsteroids)
+        {
+            currentAsteroidCount++;
+        }
+
+        // Decrease spawn interval (faster spawning)
+        currentSpawnInterval = Mathf.Max(0.5f, currentSpawnInterval - 0.2f);
+
+        // Increase asteroid speed
+        currentAsteroidSpeed = Mathf.Min(8f, currentAsteroidSpeed + 0.5f);
+
+        Debug.Log($"Round 1 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
     }
 
     void SpawnRound1Row()
     {
-        // Calculate spacing between asteroids
         float totalWidth = (currentAsteroidCount - 1) * round1RowSpacing;
         float startX = -totalWidth / 2f;
 
-        // Create array of positions and shuffle them
         Vector3[] positions = new Vector3[currentAsteroidCount];
         for (int i = 0; i < currentAsteroidCount; i++)
         {
@@ -256,7 +238,7 @@ public class GameManager : MonoBehaviour
             positions[randomIndex] = temp;
         }
 
-        // Spawn asteroids at shuffled positions
+        // Spawn asteroids
         for (int i = 0; i < currentAsteroidCount; i++)
         {
             GameObject asteroid = Instantiate(asteroidPrefab, positions[i], Quaternion.identity);
@@ -264,14 +246,12 @@ public class GameManager : MonoBehaviour
             AsteroidController controller = asteroid.GetComponent<AsteroidController>();
             if (controller != null)
             {
-                controller.SetSpeed(2f + Random.Range(-0.5f, 0.5f));
+                controller.SetSpeed(currentAsteroidSpeed + Random.Range(-0.5f, 0.5f));
                 controller.maxHealth = 3;
             }
 
             Destroy(asteroid, destroyAfterSeconds);
         }
-
-        //Debug.Log($"Round 1: Spawned row of {currentAsteroidCount} asteroids");
     }
 
     void InitializeRound2()
@@ -281,7 +261,7 @@ public class GameManager : MonoBehaviour
         currentSpawnInterval = round2SpawnInterval;
         currentAsteroidSpeed = 1f;
         nextSpawnTime = Time.time;
-        nextDifficultyIncrease = Time.time + 5f; // Increase every 5 seconds
+        nextDifficultyIncrease = Time.time + 5f;
     }
 
     void UpdateRound2()
@@ -293,11 +273,11 @@ public class GameManager : MonoBehaviour
             nextSpawnTime = Time.time + currentSpawnInterval;
         }
 
-        // Increase difficulty every 5 seconds
+        // Increase difficulty continuously
         if (Time.time >= nextDifficultyIncrease)
         {
             IncreaseRound2Difficulty();
-            nextDifficultyIncrease = Time.time + 5f;
+            nextDifficultyIncrease = Time.time + 3f; // Tăng độ khó mỗi 3 giây
         }
     }
 
@@ -312,7 +292,7 @@ public class GameManager : MonoBehaviour
             if (controller != null)
             {
                 controller.SetSpeed(currentAsteroidSpeed + Random.Range(-0.5f, 0.5f));
-                controller.maxHealth = 3; // 3 hits to destroy
+                controller.maxHealth = 3;
             }
 
             Destroy(asteroid, destroyAfterSeconds);
@@ -321,48 +301,56 @@ public class GameManager : MonoBehaviour
 
     void IncreaseRound2Difficulty()
     {
-        // Increase asteroid count (max 8)
+        // Increase asteroid count
         if (currentAsteroidCount < round2MaxAsteroidsPerRow)
         {
             currentAsteroidCount++;
         }
 
-        // Decrease spawn interval (min 0.5s)
+        // Decrease spawn interval (faster spawning)
         currentSpawnInterval = Mathf.Max(round2MinInterval, currentSpawnInterval - round2IntervalDecrease);
 
-        // Increase speed (max 10)
-        currentAsteroidSpeed = Mathf.Min(round2MaxSpeed, currentAsteroidSpeed + 0.5f);
+        // Increase speed
+        currentAsteroidSpeed = Mathf.Min(round2MaxSpeed, currentAsteroidSpeed + 0.3f);
 
-        //Debug.Log($"Round 2 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
+        Debug.Log($"Round 2 Difficulty: Count={currentAsteroidCount}, Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
     }
 
-    // ========== ROUND 3: Splitting asteroids ==========
     void InitializeRound3()
     {
         Debug.Log("Initializing Round 3");
         nextSpawnTime = Time.time;
+        currentSpawnInterval = round3SpawnInterval;
+        currentAsteroidSpeed = 1.5f;
+        round3NextDifficultyIncrease = Time.time + 8f;
     }
 
     void UpdateRound3()
     {
+        // Spawn asteroids
         if (Time.time >= nextSpawnTime)
         {
             SpawnRound3Asteroid();
-            nextSpawnTime = Time.time + round3SpawnInterval;
+            nextSpawnTime = Time.time + currentSpawnInterval;
+        }
+
+        // Increase difficulty over time
+        if (Time.time >= round3NextDifficultyIncrease)
+        {
+            IncreaseRound3Difficulty();
+            round3NextDifficultyIncrease = Time.time + 6f; // Tăng độ khó mỗi 6 giây
         }
     }
 
-
-    IEnumerator SpawnAsteroids()
+    void IncreaseRound3Difficulty()
     {
-        while (currentRound != 3)
-        {
-            float delay = Random.Range(0.5f, 2f);
-            yield return new WaitForSeconds(delay);
-            Vector3 spawnPosition = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), spawnHeight, 0f);
-            GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
-            Destroy(asteroid, destroyAfterSeconds);
-        }
+        // Decrease spawn interval (faster spawning)
+        currentSpawnInterval = Mathf.Max(round3MinInterval, currentSpawnInterval - 0.15f);
+
+        // Increase asteroid speed
+        currentAsteroidSpeed = Mathf.Min(round3MaxSpeed, currentAsteroidSpeed + 0.4f);
+
+        Debug.Log($"Round 3 Difficulty: Speed={currentAsteroidSpeed}, Interval={currentSpawnInterval}");
     }
 
     void SpawnRound3Asteroid()
@@ -373,10 +361,8 @@ public class GameManager : MonoBehaviour
         AsteroidController controller = asteroid.GetComponent<AsteroidController>();
         if (controller != null)
         {
-            controller.SetSpeed(1.5f + Random.Range(-0.5f, 0.5f));
-            controller.maxHealth = 1; // Only 1 hit to split
-
-            // Mark this as a splitting asteroid
+            controller.SetSpeed(currentAsteroidSpeed + Random.Range(-0.3f, 0.3f));
+            controller.maxHealth = 1;
             asteroid.tag = "SplittingAsteroid";
         }
 
@@ -389,14 +375,12 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            // Calculate spread directions
-            float angle = i * 120f; // 120 degrees apart
+            float angle = i * 120f;
             Vector3 direction = new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), -1f, 0f).normalized;
 
             Vector3 spawnPos = position + direction * 0.5f;
             GameObject smallAsteroid = Instantiate(smallAsteroidPrefab, spawnPos, Quaternion.identity);
 
-            // Add component for player tracking
             SmallAsteroidController smallController = smallAsteroid.GetComponent<SmallAsteroidController>();
             if (smallController == null)
             {
@@ -404,7 +388,6 @@ public class GameManager : MonoBehaviour
             }
 
             smallController.Initialize(direction, playerObject);
-
             Destroy(smallAsteroid, destroyAfterSeconds);
         }
     }
@@ -414,6 +397,38 @@ public class GameManager : MonoBehaviour
         float randomX = Random.Range(-spawnRangeX, spawnRangeX);
         float randomY = spawnHeight + Random.Range(-0.5f, 0.5f);
         return new Vector3(randomX, randomY, 0f);
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        pauseMenuScreen.SetActive(true);
+        isPaused = true;
+    }
+
+    void InitializeGame()
+    {
+        score = 0;
+        HealthManager.health = 3;
+        currentRound = 1;
+        gameStarted = true;
+        
+        // Initialize required scores
+        round1RequiredScore = 100;
+        round2RequiredScore = 200;
+        round3RequiredScore = 300;
+    }
+
+    void FindPlayerComponents()
+    {
+        if (playerObject == null)
+        {
+            playerObject = GameObject.FindGameObjectWithTag("Player");
+        }
+        if (playerObject != null)
+        {
+            shieldController = playerObject.GetComponent<ShieldController>();
+        }
     }
 
     public void AddScore(int points)
@@ -449,7 +464,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("EndGame");
     }
 
-
     public void TogglePause()
     {
         isPaused = !isPaused;
@@ -463,9 +477,10 @@ public class GameManager : MonoBehaviour
             ResumeGame();
         }
     }
+
     public void ResumeGame()
     {
-        Time.timeScale = 1; // Tiếp tục game
+        Time.timeScale = 1;
         pauseMenuScreen.SetActive(false);
         isPaused = false;
     }
@@ -486,7 +501,7 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + score.ToString();            
+            scoreText.text = "Score: " + score.ToString();
         }
     }
 
@@ -510,7 +525,7 @@ public class GameManager : MonoBehaviour
     public int GetCurrentLives() => HealthManager.health;
     public void SetCurrentLives(int lives)
     {
-        HealthManager.health = Mathf.Max(0, lives); // Ensure health doesn't go below 0
+        HealthManager.health = Mathf.Max(0, lives);
         UpdateLivesText();
     }
     public int GetCurrentScore() => score;
