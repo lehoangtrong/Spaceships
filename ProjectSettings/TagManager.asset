@@ -11,6 +11,7 @@ TagManager:
   - pyramid
   - plane
   - Heart
+  - SplittingAsteroid
   layers:
   - Default
   - TransparentFX
