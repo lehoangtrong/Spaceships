@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -127848781
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300006, guid: 1bd6c74c058d5f143a391104c445e845, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -199,12 +199,16 @@ MonoBehaviour:
   speedIncrement: 0.5
   maxSpeed: 10
   interval: 5
+  rotationSpeed: {x: 0, y: 0, z: 100}
+  maxHealth: 3
+  pushbackForce: 2
+  pushbackDuration: 0.3
   explosionAndFlarePrefab: {fileID: 100010, guid: 58cdf464e218e2f4e8044e57682af001, type: 3}
+  hitEffectPrefab: {fileID: 0}
   starPrefab: {fileID: 6103804213451016826, guid: 74158aa9a64ccb942aff2b88b58a8816, type: 3}
   explosionSound: {fileID: 8300000, guid: c8331a8dfb2bb1647b19ecbe8d95ba5d, type: 3}
+  hitSound: {fileID: 0}
   dieSound: {fileID: 8300000, guid: 7a4945efcec8fc14aa7351b561c07e6e, type: 3}
-  asteroidSpawnCount: 1
-  rotationSpeed: {x: 0, y: 0, z: 100}
   scoreValue: 1
   starSpawnChance: 0.5
   splitOnDeath: 1

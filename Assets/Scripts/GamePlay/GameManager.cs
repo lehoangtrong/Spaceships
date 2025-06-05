@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject pauseMenuScreen;
+    //private BackgroundFader backgroundFader;
+
+    private BackgroundManager backgroundManager;
+    //public GameObject[] roundBGs; // Gán Round1BG, Round2BG, Round3BG theo thứ tự
+
 
 
     // Round-specific variables
@@ -83,6 +88,7 @@ public class GameManager : MonoBehaviour
         round1RequiredScore = 10;
         round2RequiredScore = 20;
         round3RequiredScore = 500;
+        backgroundManager = FindObjectOfType<BackgroundManager>();
 
         if (pauseMenuScreen != null)
         {
@@ -195,6 +201,11 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
 
         Debug.Log($"Starting Round {currentRound}");
+
+        if (backgroundManager != null)
+        {
+            backgroundManager.SwitchTo(roundNumber - 1); // Vì mảng bắt đầu từ 0
+        }
 
         switch (currentRound)
         {
