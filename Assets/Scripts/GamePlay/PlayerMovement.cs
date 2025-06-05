@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float smoothingSpeed = 5f;
 
     [Header("Input Settings")]
-    [SerializeField] private bool useMouseMovement = true;
-    [SerializeField] private bool useKeyboardMovement = true;
     [SerializeField] private float keyboardMoveSpeed = 7f;
 
     [Header("Boundaries")]
@@ -35,23 +33,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Di chuyển theo chuột nếu được bật
-        if (useMouseMovement)
+        if (InputSettings.CurrentControl == ControlType.Mouse)
         {
             UpdateMouseTarget();
+            MoveTowardsTarget(); // Di chuyển mượt đến chuột
         }
-
-        // Di chuyển theo phím nếu được bật
-        if (useKeyboardMovement)
+        else if (InputSettings.CurrentControl == ControlType.Keyboard)
         {
-            MoveWithKeyboard();
+            MoveWithKeyboard(); // Di chuyển bằng phím
         }
 
-        // Di chuyển phi thuyền đến vị trí mục tiêu
-        MoveTowardsTarget();
-
-        // Giới hạn vị trí của phi thuyền trong màn hình
-        ClampPosition();
+        ClampPosition(); // Giới hạn trong màn
     }
 
     private void UpdateMouseTarget()
@@ -97,17 +89,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveTowardsTarget()
     {
-        // Chỉ di chuyển đến mục tiêu nếu không đang điều khiển bằng phím
-        if (!useKeyboardMovement || (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0))
+        // Chỉ di chuyển đến mục tiêu nếu đang dùng chuột
+        if (InputSettings.CurrentControl == ControlType.Mouse)
         {
             if (useSmoothing)
             {
-                // Di chuyển mượt
                 transform.position = Vector3.Lerp(transform.position, targetPosition, smoothingSpeed * Time.deltaTime);
             }
             else
             {
-                // Di chuyển trực tiếp
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             }
         }
