@@ -1049,8 +1049,6 @@ MonoBehaviour:
   moveSpeed: 5
   useSmoothing: 1
   smoothingSpeed: 5
-  useMouseMovement: 1
-  useKeyboardMovement: 1
   keyboardMoveSpeed: 7
   minX: -8
   maxX: 8
@@ -2459,16 +2457,19 @@ MonoBehaviour:
   round1MaxAsteroids: 8
   round1RowSpacing: 1.5
   round1RequiredScore: 15
+  round1DifficultyIncreaseTime: 5
   round2SpawnInterval: 2
   round2IntervalDecrease: 0.2
   round2MinInterval: 0.5
   round2MaxAsteroidsPerRow: 10
   round2MaxSpeed: 10
   round2RequiredScore: 25
-  currentRound: 1
-  roundText: {fileID: 0}
   round3SpawnInterval: 2.5
   round3RequiredScore: 35
+  round3MinInterval: 0.5
+  round3MaxSpeed: 12
+  currentRound: 1
+  roundText: {fileID: 0}
   scoreText: {fileID: 238149520}
   playerObject: {fileID: 0}
   shieldController: {fileID: 0}
@@ -2525,7 +2526,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
